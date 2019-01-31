@@ -24,8 +24,17 @@ public:
 	UFUNCTION()
 		void MoveRight(float Value);
 
+	UFUNCTION()
+		void MoveUp();
+
+	UFUNCTION()
+		void MoveDown();
+
 	UPROPERTY(VisibleAnywhere)
 		UCameraComponent* RTSCameraComponent;
+
+	UPROPERTY(EditAnywhere)
+		float MouseSensitivity = 3.0f;
 
 protected:
 	virtual void BeginPlay() override;
