@@ -3,15 +3,7 @@
 AMainCamera::AMainCamera()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
-	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootComponent"));
-
-	RTSCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("RTSCamera"));
-	RTSCameraComponent->SetupAttachment(RootComponent);
-	RTSCameraComponent->SetRelativeRotation(FRotator(-30.0f, 0.0f, 0.0f));
-
 	AutoPossessPlayer = EAutoReceiveInput::Player0;
-	SetActorLocation(FVector(0.0f, 0.0f, 1000.0f));
 }
 
 void AMainCamera::BeginPlay()
