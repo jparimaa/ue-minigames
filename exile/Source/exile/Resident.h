@@ -11,11 +11,16 @@ class EXILE_API AResident : public APawn
 
 public:
 	AResident();
+	virtual void Tick(float DeltaTime) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
 	virtual void BeginPlay() override;
 
-public:
-	virtual void Tick(float DeltaTime) override;
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+private:
+	void FindNearestActor();
+
+	AActor* NearestActor = nullptr;
+	FVector Direction;
+	float Speed = 100.0f;
 };
