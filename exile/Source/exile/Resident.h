@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Classes/Components/SphereComponent.h"
 #include "Resident.generated.h"
 
 UCLASS()
@@ -13,7 +14,9 @@ public:
 	AResident();
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	UFUNCTION()
+		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	
 protected:
 	virtual void BeginPlay() override;
 
@@ -23,4 +26,6 @@ private:
 	AActor* NearestActor = nullptr;
 	FVector Direction;
 	float Speed = 100.0f;
+	USphereComponent* m_sphereTrigger = nullptr;
+	bool m_reachedDestination = false;
 };

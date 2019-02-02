@@ -1,6 +1,5 @@
 #include "Resident.h"
 #include "Tree.h"
-#include "Classes/Components/SphereComponent.h"
 
 #include <limits>
 
@@ -12,6 +11,13 @@ AResident::AResident()
 void AResident::BeginPlay()
 {
 	Super::BeginPlay();
+
+	USphereComponent* sphereComponent = Cast< USphereComponent>(GetDefaultSubobjectByName(TEXT("Sphere")));
+	if (sphereComponent)
+	{
+		sphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AResident::OnOverlapBegin);
+	}
+
 	FindNearestActor();
 	if (NearestActor != nullptr)
 	{
@@ -23,15 +29,30 @@ void AResident::BeginPlay()
 void AResident::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	FVector NewLocation = GetActorLocation();
-	NewLocation += Direction * DeltaTime * Speed;
-	SetActorLocation(NewLocation);
+	if (!m_reachedDestination)
+	{
+		FVector NewLocation = GetActorLocation();
+		NewLocation += Direction * DeltaTime * Speed;
+		SetActorLocation(NewLocation);
+	}
 }
 
 void AResident::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+}
 
+void AResident::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
+	class AActor* OtherActor,
+	class UPrimitiveComponent* OtherComp,
+	int32 OtherBodyIndex,
+	bool bFromSweep,
+	const FHitResult& SweepResult)
+{
+	if (OtherActor->GetClass()->IsChildOf(ATree::StaticClass()))
+	{
+		m_reachedDestination = true;
+	}
 }
 
 void AResident::FindNearestActor()
