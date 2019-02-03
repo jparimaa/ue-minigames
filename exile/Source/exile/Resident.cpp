@@ -18,7 +18,7 @@ void AResident::BeginPlay()
 		sphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AResident::OnOverlapBegin);
 	}
 
-	FindNearestActor();
+	findNearestActor();
 	if (m_nearestActor != nullptr)
 	{
 		m_direction = m_nearestActor->GetActorLocation() - GetActorLocation();
@@ -34,6 +34,17 @@ void AResident::Tick(float DeltaTime)
 		FVector NewLocation = GetActorLocation();
 		NewLocation += m_direction * DeltaTime * m_speed;
 		SetActorLocation(NewLocation);
+	}
+
+	if (m_cutting)
+	{
+		uint16 yield = 0;
+		if (m_treeToBeCutted->cut(1, yield))
+		{
+			m_cutting = false;
+			m_reachedDestination = false;
+			m_direction *= -1.0f;
+		}
 	}
 }
 
@@ -52,10 +63,11 @@ void AResident::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
 	if (OtherActor->GetClass()->IsChildOf(ATree::StaticClass()))
 	{
 		m_reachedDestination = true;
+		startCutting(OtherActor);
 	}
 }
 
-void AResident::FindNearestActor()
+void AResident::findNearestActor()
 {
 	TArray<AActor*> OverlappingActors; 
 	TSubclassOf<ATree> Filter;
@@ -68,4 +80,10 @@ void AResident::FindNearestActor()
 		SmallestDistance = Distance > SmallestDistance ? Distance : SmallestDistance;
 		m_nearestActor = Actor;
 	}
+}
+
+void AResident::startCutting(AActor* actor)
+{
+	m_treeToBeCutted = Cast<ATree>(actor);
+	m_cutting = true;
 }
