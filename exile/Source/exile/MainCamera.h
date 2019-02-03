@@ -30,15 +30,11 @@ public:
 	UFUNCTION()
 		void MoveDown();
 
-	UPROPERTY(VisibleAnywhere)
-		UCameraComponent* RTSCameraComponent;
-
 	UPROPERTY(EditAnywhere)
-		float MouseSensitivity = 3.0f;
+		float m_mouseSensitivity = 3.0f;
 
 protected:
 	virtual void BeginPlay() override;
 
-	FVector MovementInput;
-
+	FVector m_movementInput;
 };

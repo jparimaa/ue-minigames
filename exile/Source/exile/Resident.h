@@ -23,9 +23,9 @@ protected:
 private:
 	void FindNearestActor();
 
-	AActor* NearestActor = nullptr;
-	FVector Direction;
-	float Speed = 100.0f;
+	AActor* m_nearestActor = nullptr;
+	FVector m_direction;
+	float m_speed = 100.0f;
 	USphereComponent* m_sphereTrigger = nullptr;
 	bool m_reachedDestination = false;
 };

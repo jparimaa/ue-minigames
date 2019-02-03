@@ -13,11 +13,12 @@ public:
 	ATree();
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere)
-		uint16 Health = 100;
 
 	UPROPERTY(EditAnywhere)
-		uint16 Yield = 100;
+		uint16 m_health = 100;
+
+	UPROPERTY(EditAnywhere)
+		uint16 m_yield = 100;
 
 protected:
 	virtual void BeginPlay() override;	

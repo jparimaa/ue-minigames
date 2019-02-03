@@ -12,17 +12,17 @@ void AResident::BeginPlay()
 {
 	Super::BeginPlay();
 
-	USphereComponent* sphereComponent = Cast< USphereComponent>(GetDefaultSubobjectByName(TEXT("Sphere")));
+	USphereComponent* sphereComponent = Cast<USphereComponent>(GetDefaultSubobjectByName(TEXT("Sphere")));
 	if (sphereComponent)
 	{
 		sphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AResident::OnOverlapBegin);
 	}
 
 	FindNearestActor();
-	if (NearestActor != nullptr)
+	if (m_nearestActor != nullptr)
 	{
-		Direction = NearestActor->GetActorLocation() - GetActorLocation();
-		Direction.Normalize();
+		m_direction = m_nearestActor->GetActorLocation() - GetActorLocation();
+		m_direction.Normalize();
 	}
 }
 
@@ -32,7 +32,7 @@ void AResident::Tick(float DeltaTime)
 	if (!m_reachedDestination)
 	{
 		FVector NewLocation = GetActorLocation();
-		NewLocation += Direction * DeltaTime * Speed;
+		NewLocation += m_direction * DeltaTime * m_speed;
 		SetActorLocation(NewLocation);
 	}
 }
@@ -66,6 +66,6 @@ void AResident::FindNearestActor()
 	{
 		float Distance = Actor->GetDistanceTo(this);
 		SmallestDistance = Distance > SmallestDistance ? Distance : SmallestDistance;
-		NearestActor = Actor;
+		m_nearestActor = Actor;
 	}
 }

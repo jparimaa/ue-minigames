@@ -16,18 +16,18 @@ void AMainCamera::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if (!MovementInput.IsZero())
+	if (!m_movementInput.IsZero())
 	{
-		MovementInput = MovementInput.GetSafeNormal() * 1000.0f;
+		m_movementInput = m_movementInput.GetSafeNormal() * 1000.0f;
 		FVector NewLocation = GetActorLocation();
-		NewLocation += GetActorRightVector() * MovementInput.X * DeltaTime;
-		NewLocation += GetActorForwardVector() * MovementInput.Y * DeltaTime;
-		NewLocation += GetActorUpVector() * MovementInput.Z * DeltaTime * MouseSensitivity;
+		NewLocation += GetActorRightVector() * m_movementInput.X * DeltaTime;
+		NewLocation += GetActorForwardVector() * m_movementInput.Y * DeltaTime;
+		NewLocation += GetActorUpVector() * m_movementInput.Z * DeltaTime * m_mouseSensitivity;
 
-		//UE_LOG(LogTemp, Log, TEXT("##### %s"), *MovementInput.ToString());
+		//UE_LOG(LogTemp, Log, TEXT("##### %s"), *m_movementInput.ToString());
 
 		SetActorLocation(NewLocation);
-		MovementInput.Z = 0.0f;
+		m_movementInput.Z = 0.0f;
 	}
 }
 
@@ -43,20 +43,20 @@ void AMainCamera::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 
 void AMainCamera::MoveForward(float Value)
 {
-	MovementInput.Y = FMath::Clamp<float>(Value, -1.0f, 1.0f);
+	m_movementInput.Y = FMath::Clamp<float>(Value, -1.0f, 1.0f);
 }
 
 void AMainCamera::MoveRight(float Value)
 {
-	MovementInput.X = FMath::Clamp<float>(Value, -1.0f, 1.0f);
+	m_movementInput.X = FMath::Clamp<float>(Value, -1.0f, 1.0f);
 }
 
 void AMainCamera::MoveUp()
 {
-	MovementInput.Z = 1.0f;
+	m_movementInput.Z = 1.0f;
 }
 
 void AMainCamera::MoveDown()
 {
-	MovementInput.Z = -1.0;
+	m_movementInput.Z = -1.0;
 }
