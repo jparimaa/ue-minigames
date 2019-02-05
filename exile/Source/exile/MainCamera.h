@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -19,16 +17,16 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UFUNCTION()
-		void MoveForward(float Value);
+		void moveForward(float Value);
 
 	UFUNCTION()
-		void MoveRight(float Value);
+		void moveRight(float Value);
 
 	UFUNCTION()
-		void MoveUp();
+		void moveUp();
 
 	UFUNCTION()
-		void MoveDown();
+		void moveDown();
 
 	UPROPERTY(EditAnywhere)
 		float m_mouseSensitivity = 3.0f;

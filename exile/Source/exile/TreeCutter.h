@@ -3,6 +3,7 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Classes/Components/SphereComponent.h"
+#include "Resident.h"
 #include "Tree.h"
 #include "TreeCutter.generated.h"
 
@@ -21,15 +22,32 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	void findNearestActor();
-	void startCutting(AActor* actor);
+	enum class Status
+	{
+		WalkingToCut,
+		Cutting,
+		TransportingWoodToBarn
+	};
 
-	AActor* m_nearestActor = nullptr;
-	FVector m_direction;
-	float m_speed = 100.0f;
+	void startCutting(AActor* tree);
+
+	AResident* m_owner = nullptr;
 	USphereComponent* m_sphereTrigger = nullptr;
-	bool m_reachedDestination = false;
 
-	bool m_cutting = false;
-	ATree* m_treeToBeCutted = nullptr;
+	Status m_status = Status::WalkingToCut;
+
+	UPROPERTY(VisibleAnywhere)
+		AActor* m_nearestTree = nullptr;
+
+	UPROPERTY(VisibleAnywhere)
+		AActor* m_nearestBarn = nullptr;
+
+	UPROPERTY(VisibleAnywhere)
+		ATree* m_treeToBeCutted = nullptr;
+
+	UPROPERTY(VisibleAnywhere)
+		FVector m_direction;
+
+	UPROPERTY(VisibleAnywhere)
+		uint16 m_amountOfWoodOwned = 0;
 };
