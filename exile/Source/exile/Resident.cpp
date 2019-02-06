@@ -10,12 +10,12 @@ void AResident::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-AActor* AResident::findNearestBarnWithSpace(uint16 spaceRequired)
+ABarn* AResident::findNearestBarnWithSpace(uint16 spaceRequired)
 {
 	TArray<AActor*> overlappingActors;
 	GetOverlappingActors(overlappingActors, ABarn::StaticClass());
 	float smallestDistance = std::numeric_limits<float>::max();
-	AActor* nearestBarn = nullptr;
+	ABarn* nearestBarn = nullptr;
 	for (AActor* actor : overlappingActors)
 	{
 		ABarn* barn = Cast<ABarn>(actor);
@@ -23,7 +23,7 @@ AActor* AResident::findNearestBarnWithSpace(uint16 spaceRequired)
 		if (distance < smallestDistance && barn->getFreeSpace() >= spaceRequired)
 		{
 			smallestDistance = distance;
-			nearestBarn = actor;
+			nearestBarn = Cast<ABarn>(actor);
 		}
 	}
 	return nearestBarn;

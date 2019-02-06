@@ -36,7 +36,7 @@ public:
 		return Cast<T>(nearestActor);
 	}
 
-	AActor* findNearestBarnWithSpace(uint16 spaceRequired);
+	ABarn* findNearestBarnWithSpace(uint16 spaceRequired);
 	FVector getDirectionTo(AActor* actor);
 	void move(FVector direction);
 

@@ -26,21 +26,18 @@ private:
 	{
 		WalkingToCut,
 		Cutting,
-		TransportingWoodToBarn
+		ReturningWoodToBarn
 	};
 
-	void startCutting(AActor* tree);
+	void startCutting();
+	void returnWood();
 
 	AResident* m_owner = nullptr;
-	USphereComponent* m_sphereTrigger = nullptr;
 
 	Status m_status = Status::WalkingToCut;
 
 	UPROPERTY(VisibleAnywhere)
-		AActor* m_nearestTree = nullptr;
-
-	UPROPERTY(VisibleAnywhere)
-		AActor* m_nearestBarn = nullptr;
+		ABarn* m_barnToReturn = nullptr;
 
 	UPROPERTY(VisibleAnywhere)
 		ATree* m_treeToBeCutted = nullptr;
