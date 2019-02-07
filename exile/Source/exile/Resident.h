@@ -1,8 +1,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Pawn.h"
 #include "Barn.h"
+#include "GameFramework/Pawn.h"
+#include "MyAIController.h"
 
 #include <limits>
 
@@ -38,6 +39,7 @@ public:
 
 	ABarn* findNearestBarnWithSpace(uint16 spaceRequired);
 	FVector getDirectionTo(AActor* actor);
+	void moveToActor(AActor* actor);
 	void move(FVector direction);
 
 protected:
@@ -46,4 +48,7 @@ protected:
 private:
 	UPROPERTY(VisibleAnywhere)
 		float m_speed = 100.0f;
+
+	UPROPERTY(VisibleAnywhere)
+		AAIController* m_aiController;
 };
