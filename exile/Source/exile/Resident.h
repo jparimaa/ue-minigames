@@ -2,7 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Barn.h"
-#include "GameFramework/Pawn.h"
+#include "GameFramework/Character.h"
 #include "MyAIController.h"
 
 #include <limits>
@@ -10,7 +10,7 @@
 #include "Resident.generated.h"
 
 UCLASS()
-class EXILE_API AResident : public APawn
+class EXILE_API AResident : public ACharacter
 {
 	GENERATED_BODY()
 
