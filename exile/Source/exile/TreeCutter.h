@@ -43,8 +43,5 @@ private:
 		ATree* m_treeToBeCutted = nullptr;
 
 	UPROPERTY(VisibleAnywhere)
-		FVector m_direction;
-
-	UPROPERTY(VisibleAnywhere)
 		uint16 m_amountOfWoodOwned = 0;
 };

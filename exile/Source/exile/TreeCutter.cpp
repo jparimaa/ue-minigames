@@ -32,10 +32,9 @@ void UTreeCutter::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 		if (m_treeToBeCutted == nullptr)
 		{
 			m_treeToBeCutted = m_owner->findNearestActor<ATree>();
-			m_direction = m_owner->getDirectionTo(m_treeToBeCutted);
+			m_owner->moveToActor(m_treeToBeCutted);
 		}
 
-		m_owner->move(m_direction * DeltaTime);
 	}
 	else if (m_status == Status::Cutting)
 	{
@@ -52,10 +51,8 @@ void UTreeCutter::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 		if (m_barnToReturn == nullptr)
 		{
 			m_barnToReturn = m_owner->findNearestBarnWithSpace(m_amountOfWoodOwned);
-			m_direction = m_owner->getDirectionTo(m_barnToReturn);
+			m_owner->moveToActor(m_barnToReturn);
 		}
-
-		m_owner->move(m_direction * DeltaTime);
 	}
 }
 
@@ -85,7 +82,6 @@ void UTreeCutter::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
 void UTreeCutter::startCutting()
 {
 	m_status = Status::Cutting;
-	m_direction.Set(0.0f, 0.0f, 0.0f);
 }
 
 void UTreeCutter::returnWood()
@@ -94,5 +90,4 @@ void UTreeCutter::returnWood()
 	m_amountOfWoodOwned = 0;
 	m_barnToReturn = nullptr;
 	m_status = Status::WalkingToCut;
-	m_direction.Set(0.0f, 0.0f, 0.0f);
 }

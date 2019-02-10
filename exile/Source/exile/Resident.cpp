@@ -29,31 +29,12 @@ ABarn* AResident::findNearestBarnWithSpace(uint16 spaceRequired)
 	return nearestBarn;
 }
 
-FVector AResident::getDirectionTo(AActor* actor)
-{
-	FVector direction;
-	if (actor != nullptr)
-	{
-		direction = actor->GetActorLocation() - GetActorLocation();
-		direction.Normalize();
-	}
-	return direction;
-}
-
 void AResident::moveToActor(AActor* actor)
 {
 	if (actor != nullptr)
 	{
 		m_aiController->MoveToActor(actor);
 	}
-}
-
-void AResident::move(FVector direction)
-{
-	return;
-	FVector newLocation = GetActorLocation();
-	newLocation += direction * m_speed;
-	SetActorLocation(newLocation);
 }
 
 void AResident::BeginPlay()

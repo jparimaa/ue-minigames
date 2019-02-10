@@ -38,9 +38,7 @@ public:
 	}
 
 	ABarn* findNearestBarnWithSpace(uint16 spaceRequired);
-	FVector getDirectionTo(AActor* actor);
 	void moveToActor(AActor* actor);
-	void move(FVector direction);
 
 protected:
 	virtual void BeginPlay() override;
