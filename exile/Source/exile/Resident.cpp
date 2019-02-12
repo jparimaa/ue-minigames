@@ -5,6 +5,15 @@ AResident::AResident()
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+void AResident::BeginPlay()
+{
+	Super::BeginPlay();
+	m_aiController = Cast<AAIController>(GetController());
+
+	moveToActor(findNearestBarnWithSpace(0));
+}
+
+
 void AResident::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
@@ -37,10 +46,3 @@ void AResident::moveToActor(AActor* actor)
 	}
 }
 
-void AResident::BeginPlay()
-{
-	Super::BeginPlay();
-	m_aiController = Cast<AAIController>(GetController());
-
-	moveToActor(findNearestBarnWithSpace(0));
-}

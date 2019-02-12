@@ -16,6 +16,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UMG Game")
 		void ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass);
 
+	void updateResources();
+
 	void setResourcesGUI(UResourcesGUI* resourcesGUI);
 
 protected:

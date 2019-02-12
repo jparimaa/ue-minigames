@@ -1,19 +1,12 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #include "ResourcesGUI.h"
 
-void UResourcesGUI::InitGameMode()
+void UResourcesGUI::initGameMode()
 {
 	m_gameMode = Cast<AMyGameMode>(GetWorld()->GetAuthGameMode());
 	m_gameMode->setResourcesGUI(this);
 }
 
-FText UResourcesGUI::GetDisplayText() const {
-	return DisplayText;
-
-}
-
-/** Assigns passed FText to DisplayText */
-void UResourcesGUI::SetDisplayText(const FText& NewDisplayText) {
-	DisplayText = NewDisplayText;
+void UResourcesGUI::setAmountWood(uint16 amountWood)
+{
+	m_amountWood = FString::FromInt(amountWood);
 }

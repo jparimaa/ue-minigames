@@ -2,6 +2,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "MyGameMode.h"
+
 #include "Barn.generated.h"
 
 UCLASS()
@@ -11,8 +13,8 @@ class EXILE_API ABarn : public AActor
 
 public:
 	ABarn();
-	virtual void Tick(float DeltaTime) override;
 	void addWood(uint16 amount);
+	uint16 getWoodAmount();
 	uint16 getFreeSpace();
 
 protected:
@@ -24,4 +26,6 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 		uint16 m_woodAmount = 0;
+
+	AMyGameMode* m_gameMode = nullptr;
 };

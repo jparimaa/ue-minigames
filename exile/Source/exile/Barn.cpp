@@ -8,17 +8,22 @@ ABarn::ABarn()
 void ABarn::BeginPlay()
 {
 	Super::BeginPlay();
-}
-
-void ABarn::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
+	m_gameMode = Cast<AMyGameMode>(GetWorld()->GetAuthGameMode());
 }
 
 void ABarn::addWood(uint16 amount)
 {
 	ABarn::StaticClass();
 	m_woodAmount += amount;
+	if (m_gameMode != nullptr)
+	{
+		m_gameMode->updateResources();
+	}
+}
+
+uint16 ABarn::getWoodAmount()
+{
+	return m_woodAmount;
 }
 
 uint16 ABarn::getFreeSpace()

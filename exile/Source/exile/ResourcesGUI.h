@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -7,9 +5,6 @@
 #include "MyGameMode.h"
 #include "ResourcesGUI.generated.h"
 
-/**
- *
- */
 UCLASS()
 class EXILE_API UResourcesGUI : public UUserWidget
 {
@@ -17,20 +12,14 @@ class EXILE_API UResourcesGUI : public UUserWidget
 
 public:
 	UFUNCTION(BlueprintCallable)
-		void InitGameMode();
+		void initGameMode();
 
-	/** FText value displayed by this widget */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Text")
-		FText DisplayText;
+	void setAmountWood(uint16 amountWood);
 
-	/** Retrieves FText value currently held in DisplayText */
-	UFUNCTION(BlueprintPure, Category = "Widgets|Text")
-		FText GetDisplayText() const;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		FString m_amountWood = "0";
 
-	/** Assigns passed FText to DisplayText */
-	UFUNCTION(BlueprintCallable, Category = "Widgets|Text")
-		void SetDisplayText(const FText& gmt_NewDisplayText);
-
+private:
 	UPROPERTY(VisibleAnywhere)
 		AMyGameMode* m_gameMode = nullptr;
 };

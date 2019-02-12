@@ -1,16 +1,12 @@
 #include "MyGameMode.h"
 #include "ResourcesGUI.h"
+#include "Barn.h"
+#include "EngineUtils.h"
 
 void AMyGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 	ChangeMenuWidget(StartingWidgetClass);
-}
-
-void AMyGameMode::setResourcesGUI(UResourcesGUI* resourcesGUI)
-{
-	m_resourcesGUI = resourcesGUI;
-	m_resourcesGUI->SetDisplayText(FText::FromString("Something"));
 }
 
 void AMyGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass)
@@ -29,4 +25,19 @@ void AMyGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass)
 			CurrentWidget->AddToViewport();
 		}
 	}
+}
+
+void AMyGameMode::updateResources()
+{
+	uint16 totalWoodAmount = 0;
+	for (TActorIterator<ABarn> iter(GetWorld()); iter; ++iter)
+	{
+		totalWoodAmount += iter->getWoodAmount();
+	}
+	m_resourcesGUI->setAmountWood(totalWoodAmount);
+}
+
+void AMyGameMode::setResourcesGUI(UResourcesGUI* resourcesGUI)
+{
+	m_resourcesGUI = resourcesGUI;
 }
