@@ -9,14 +9,13 @@ void AResident::BeginPlay()
 {
 	Super::BeginPlay();
 	m_aiController = Cast<AAIController>(GetController());
-
-	moveToActor(findNearestBarnWithSpace(0));
 }
 
 
 void AResident::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	m_destination = getMoveDestination();
 }
 
 ABarn* AResident::findNearestBarnWithSpace(uint16 spaceRequired)
@@ -40,9 +39,17 @@ ABarn* AResident::findNearestBarnWithSpace(uint16 spaceRequired)
 
 void AResident::moveToActor(AActor* actor)
 {
-	if (actor != nullptr)
-	{
-		m_aiController->MoveToActor(actor);
-	}
+	check(actor != nullptr);
+	m_aiController->MoveToActor(actor);
+}
+
+void AResident::stopMovement()
+{
+	m_aiController->StopMovement();
+}
+
+FVector AResident::getMoveDestination()
+{
+	return m_aiController->GetImmediateMoveDestination();
 }
 

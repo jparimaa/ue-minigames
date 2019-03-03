@@ -39,6 +39,11 @@ public:
 
 	ABarn* findNearestBarnWithSpace(uint16 spaceRequired);
 	void moveToActor(AActor* actor);
+	void stopMovement();
+	FVector getMoveDestination();
+
+	UPROPERTY(VisibleAnywhere)
+		FVector m_destination;
 
 protected:
 	virtual void BeginPlay() override;

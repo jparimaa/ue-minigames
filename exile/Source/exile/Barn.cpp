@@ -13,12 +13,10 @@ void ABarn::BeginPlay()
 
 void ABarn::addWood(uint16 amount)
 {
+	check(m_gameMode != nullptr);
 	ABarn::StaticClass();
 	m_woodAmount += amount;
-	if (m_gameMode != nullptr)
-	{
-		m_gameMode->updateResources();
-	}
+	m_gameMode->updateResources();
 }
 
 uint16 ABarn::getWoodAmount()
