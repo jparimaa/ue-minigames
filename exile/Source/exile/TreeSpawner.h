@@ -22,5 +22,4 @@ protected:
 
 private:
 	float m_counter = 0.0f;
-	int m_numTreesSpawned = 0;
 };
