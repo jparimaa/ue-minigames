@@ -14,6 +14,9 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	bool cut(uint16 damage, uint16& yield);
 
+	void setTargetLock(bool status);
+	bool isTargetLocked();
+
 	uint16_t getYield();
 	bool isFullGrown();
 
@@ -26,4 +29,5 @@ protected:
 private:
 	float m_yield = 0;
 	bool m_isFullGrown = false;
+	bool m_targetLocked = false;
 };

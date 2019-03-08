@@ -42,6 +42,16 @@ bool ATree::cut(uint16 damage, uint16& yield)
 	return false;
 }
 
+void ATree::setTargetLock(bool status)
+{
+	m_targetLocked = status;
+}
+
+bool ATree::isTargetLocked()
+{
+	return m_targetLocked;
+}
+
 uint16_t ATree::getYield()
 {
 	return static_cast<uint16_t>(m_yield);

@@ -23,9 +23,10 @@ void UTreeCutter::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 
 	if (m_status == Status::WalkingToCut && m_treeToBeCutted == nullptr)
 	{
-		m_treeToBeCutted = m_owner->findNearestActor<ATree>();
+		m_treeToBeCutted = m_owner->findNearestActor<ATree>([](ATree* tree) { return !tree->isTargetLocked(); });
 		if (m_treeToBeCutted != nullptr)
 		{
+			m_treeToBeCutted->setTargetLock(true);
 			m_owner->moveToActor(m_treeToBeCutted);
 		}
 	}

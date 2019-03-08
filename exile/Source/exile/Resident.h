@@ -6,6 +6,7 @@
 #include "MyAIController.h"
 
 #include <limits>
+#include <functional>
 
 #include "Resident.generated.h"
 
@@ -19,7 +20,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	template<typename T>
-	T* findNearestActor()
+	T* findNearestActor(std::function<bool(T*)> predicate = [](bool dummy) {return true; })
 	{
 		TArray<AActor*> overlappingActors;
 		GetOverlappingActors(overlappingActors, T::StaticClass());
@@ -27,6 +28,10 @@ public:
 		AActor* nearestActor = nullptr;
 		for (AActor* actor : overlappingActors)
 		{
+			if (!predicate(Cast<T>(actor)))
+			{
+				continue;
+			}
 			float distance = actor->GetDistanceTo(this);
 			if (distance < smallestDistance)
 			{

@@ -4,7 +4,7 @@
 #include "Math/UnrealMathUtility.h"
 #include "Engine/World.h"
 
-const float c_spawnTime = 3.0f;
+const float c_spawnTime = 15.0f;
 
 ATreeSpawner::ATreeSpawner()
 {
