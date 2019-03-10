@@ -16,9 +16,18 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UMG Game")
 		void ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass);
 
+	void setResourcesGUI(UResourcesGUI* resourcesGUI);
+
 	void updateResources();
 
-	void setResourcesGUI(UResourcesGUI* resourcesGUI);
+	void increaseNumResidents(int amount = 1);
+	void decreaseNumResidents(int amount = 1);
+
+	UFUNCTION(BlueprintCallable)
+		void addNumWoodCutters(int amount = 1);
+
+	UFUNCTION(BlueprintCallable)
+		void addNumBuilders(int amount = 1);
 
 protected:
 	virtual void BeginPlay() override;
@@ -30,4 +39,18 @@ protected:
 		UUserWidget* CurrentWidget;
 
 	UResourcesGUI* m_resourcesGUI = nullptr;
+
+	int m_numResidents = 0;
+	int m_numWoodCutters = 0;
+	int m_numBuilders = 0;
+	int m_numWorkers = 0;
+
+private:
+	void addNumWorkers(int amount = 1);
+
+	void updateToWorkers(int amount, int& profession);
+
+	int decreaseResidentsFromProfession(int amount, int& profession);
+	void checkNumResidentsAndProfessions();
+
 };

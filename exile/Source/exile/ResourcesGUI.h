@@ -15,9 +15,22 @@ public:
 		void initGameMode();
 
 	void setAmountWood(uint16 amountWood);
+	void setNumResidents(uint16 numResidents);
+	void setNumWoodCutters(uint16 numWoodCutters);
+	void setNumBuilders(uint16 numBuilders);
+	void setNumWorkers(uint16 numWorkers);
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		FString m_amountWood = "0";
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		FString m_numResidents = "0";
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		FString m_numWoodCutters = "0";
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		FString m_numBuilders = "0";
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		FString m_numWorkers = "0";
 
 private:
 	UPROPERTY(VisibleAnywhere)
