@@ -3,9 +3,11 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "Classes/Components/SphereComponent.h"
-#include "Resident.h"
 #include "Tree.h"
+#include "Barn.h"
 #include "TreeCutter.generated.h"
+
+class AResident;
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class EXILE_API UTreeCutter : public UActorComponent

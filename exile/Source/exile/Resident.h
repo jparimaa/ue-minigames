@@ -4,6 +4,9 @@
 #include "Barn.h"
 #include "GameFramework/Character.h"
 #include "MyAIController.h"
+#include "Worker.h"
+#include "TreeCutter.h"
+#include "Builder.h"
 
 #include <limits>
 #include <functional>
@@ -15,9 +18,17 @@ class EXILE_API AResident : public ACharacter
 {
 	GENERATED_BODY()
 
+		enum class Profession
+	{
+		Worker,
+		TreeCutter,
+		Builder
+	};
+
 public:
 	AResident();
 	virtual void Tick(float DeltaTime) override;
+	void setProfession(Profession profession);
 
 	template<typename T>
 	T* findNearestActor(std::function<bool(T*)> predicate = [](bool dummy) {return true; })
@@ -59,4 +70,8 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 		AAIController* m_aiController;
+
+	UWorker* m_worker = nullptr;
+	UTreeCutter* m_treeCutter = nullptr;
+	UBuilder* m_builder = nullptr;
 };
