@@ -13,6 +13,12 @@ public:
 	UWorker();
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	void setEnabled(bool status);
+
 protected:
 	virtual void BeginPlay() override;
+
+private:
+	UPROPERTY(VisibleAnywhere)
+		bool m_enabled = false;
 };

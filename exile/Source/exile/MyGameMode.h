@@ -53,4 +53,5 @@ private:
 	int decreaseResidentsFromProfession(int amount, int& profession);
 	void checkNumResidentsAndProfessions();
 
+	void updateResidentProfessions();
 };

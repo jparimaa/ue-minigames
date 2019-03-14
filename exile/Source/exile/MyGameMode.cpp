@@ -4,6 +4,9 @@
 #include "Resident.h"
 #include "EngineUtils.h"
 
+#include <vector>
+#include <algorithm>
+
 void AMyGameMode::BeginPlay()
 {
 	Super::BeginPlay();
@@ -70,6 +73,7 @@ void AMyGameMode::decreaseNumResidents(int amount)
 	m_resourcesGUI->setNumWoodCutters(m_numWoodCutters);
 	m_resourcesGUI->setNumBuilders(m_numBuilders);
 	m_resourcesGUI->setNumWorkers(m_numWorkers);
+	updateResidentProfessions();
 }
 
 void AMyGameMode::addNumWoodCutters(int amount)
@@ -77,6 +81,7 @@ void AMyGameMode::addNumWoodCutters(int amount)
 	updateToWorkers(amount, m_numWoodCutters);
 	checkNumResidentsAndProfessions();
 	m_resourcesGUI->setNumWoodCutters(m_numWoodCutters);
+	updateResidentProfessions();
 }
 
 void AMyGameMode::addNumBuilders(int amount)
@@ -84,6 +89,7 @@ void AMyGameMode::addNumBuilders(int amount)
 	updateToWorkers(amount, m_numBuilders);
 	checkNumResidentsAndProfessions();
 	m_resourcesGUI->setNumBuilders(m_numBuilders);
+	updateResidentProfessions();
 }
 
 void AMyGameMode::addNumWorkers(int amount)
@@ -126,4 +132,43 @@ int AMyGameMode::decreaseResidentsFromProfession(int amount, int& profession)
 void AMyGameMode::checkNumResidentsAndProfessions()
 {
 	check(m_numResidents == (m_numWoodCutters + m_numBuilders + m_numWorkers));
+}
+
+void AMyGameMode::updateResidentProfessions()
+{
+	std::vector<AResident*> residents;
+
+	TMap<AResident::Profession, int> numProfessions;
+	numProfessions.Add(AResident::Profession::Worker, m_numWorkers);
+	numProfessions.Add(AResident::Profession::TreeCutter, m_numWoodCutters);
+	numProfessions.Add(AResident::Profession::Builder, m_numBuilders);
+
+	for (TActorIterator<AResident> iter(GetWorld()); iter; ++iter)
+	{
+		residents.push_back(*iter);
+	}
+
+	auto pred = [&](const AResident* resident)
+	{
+		AResident::Profession profession = resident->getProfession();
+		int& n = numProfessions[profession];
+		if (n > 0)
+		{
+			--n;
+			return true;
+		}
+		return false;
+	};
+
+	residents.erase(std::remove_if(residents.begin(), residents.end(), pred), residents.end());
+
+	int index = 0;
+	for (auto& kv : numProfessions)
+	{
+		for (int i = 0; i < kv.Value; ++i)
+		{
+			check(residents[index] != nullptr);
+			residents[index++]->setProfession(kv.Key);
+		}
+	}
 }

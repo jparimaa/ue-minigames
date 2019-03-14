@@ -20,6 +20,8 @@ public:
 	UFUNCTION()
 		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+	void setEnabled(bool status);
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -46,4 +48,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 		uint16 m_amountOfWoodOwned = 0;
+
+	UPROPERTY(VisibleAnywhere)
+		bool m_enabled = false;
 };

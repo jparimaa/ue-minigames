@@ -18,17 +18,18 @@ class EXILE_API AResident : public ACharacter
 {
 	GENERATED_BODY()
 
-		enum class Profession
+public:
+	enum class Profession
 	{
 		Worker,
 		TreeCutter,
 		Builder
 	};
 
-public:
 	AResident();
 	virtual void Tick(float DeltaTime) override;
 	void setProfession(Profession profession);
+	Profession getProfession() const;
 
 	template<typename T>
 	T* findNearestActor(std::function<bool(T*)> predicate = [](bool dummy) {return true; })
@@ -71,6 +72,7 @@ private:
 	UPROPERTY(VisibleAnywhere)
 		AAIController* m_aiController;
 
+	Profession m_profession = Profession::Worker;
 	UWorker* m_worker = nullptr;
 	UTreeCutter* m_treeCutter = nullptr;
 	UBuilder* m_builder = nullptr;

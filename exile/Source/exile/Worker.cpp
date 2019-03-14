@@ -14,5 +14,15 @@ void UWorker::BeginPlay()
 void UWorker::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+	if (!m_enabled)
+	{
+		return;
+	}
+}
+
+void UWorker::setEnabled(bool status)
+{
+	m_enabled = status;
 }
 

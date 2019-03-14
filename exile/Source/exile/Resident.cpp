@@ -10,6 +10,8 @@ void AResident::BeginPlay()
 {
 	Super::BeginPlay();
 
+	m_aiController = Cast<AAIController>(GetController());
+
 	m_worker = Cast<UWorker>(GetComponentByClass(UWorker::StaticClass()));
 	check(m_worker != nullptr);
 	m_treeCutter = Cast<UTreeCutter>(GetComponentByClass(UTreeCutter::StaticClass()));
@@ -17,11 +19,9 @@ void AResident::BeginPlay()
 	m_builder = Cast<UBuilder>(GetComponentByClass(UBuilder::StaticClass()));
 	check(m_builder != nullptr);
 
-	m_worker->SetActive(false);
-	m_treeCutter->SetActive(false);
-	m_builder->SetActive(false);
-
-	m_aiController = Cast<AAIController>(GetController());
+	m_worker->setEnabled(true);
+	m_treeCutter->setEnabled(false);
+	m_builder->setEnabled(false);
 }
 
 
@@ -33,22 +33,15 @@ void AResident::Tick(float DeltaTime)
 
 void AResident::setProfession(Profession profession)
 {
-	m_worker->Deactivate();
-	m_treeCutter->Deactivate();
-	m_builder->Deactivate();
+	m_profession = profession;
+	m_worker->setEnabled(profession == Profession::Worker);
+	m_treeCutter->setEnabled(profession == Profession::TreeCutter);
+	m_builder->setEnabled(profession == Profession::Builder);
+}
 
-	if (profession == Profession::Worker)
-	{
-		m_worker->Activate();
-	}
-	else if (profession == Profession::TreeCutter)
-	{
-		m_treeCutter->Activate();
-	}
-	else if (profession == Profession::Builder)
-	{
-		m_builder->Activate();
-	}
+AResident::Profession AResident::getProfession() const
+{
+	return m_profession;
 }
 
 ABarn* AResident::findNearestBarnWithSpace(uint16 spaceRequired)
@@ -78,11 +71,13 @@ void AResident::moveToActor(AActor* actor)
 
 void AResident::stopMovement()
 {
+	check(m_aiController != nullptr);
 	m_aiController->StopMovement();
 }
 
 FVector AResident::getMoveDestination()
 {
+	check(m_aiController != nullptr);
 	return m_aiController->GetImmediateMoveDestination();
 }
 

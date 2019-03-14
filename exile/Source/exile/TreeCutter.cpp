@@ -23,6 +23,11 @@ void UTreeCutter::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	if (!m_enabled)
+	{
+		return;
+	}
+
 	if (m_status == Status::WalkingToCut && m_treeToBeCutted == nullptr)
 	{
 		m_treeToBeCutted = m_owner->findNearestActor<ATree>([](ATree* tree) { return !tree->isTargetLocked(); });
@@ -68,6 +73,26 @@ void UTreeCutter::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
 	{
 		m_owner->stopMovement();
 		returnWood();
+	}
+}
+
+void UTreeCutter::setEnabled(bool status)
+{
+	m_enabled = status;
+	if (status == false)
+	{
+		if (m_owner != nullptr)
+		{
+			m_owner->stopMovement();
+		}
+		m_status = Status::WalkingToCut;
+		m_barnToReturn = nullptr;
+		if (m_treeToBeCutted != nullptr)
+		{
+			m_treeToBeCutted->setTargetLock(false);
+		}
+		m_treeToBeCutted = nullptr;
+		m_amountOfWoodOwned = 0;
 	}
 }
 
