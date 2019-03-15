@@ -16,7 +16,7 @@ public:
 
 	void setAmountWood(uint16 amountWood);
 	void setNumResidents(uint16 numResidents);
-	void setNumWoodCutters(uint16 numWoodCutters);
+	void setNumTreeCutters(uint16 numTreeCutters);
 	void setNumBuilders(uint16 numBuilders);
 	void setNumWorkers(uint16 numWorkers);
 
@@ -26,7 +26,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		FString m_numResidents = "0";
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		FString m_numWoodCutters = "0";
+		FString m_numTreeCutters = "0";
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		FString m_numBuilders = "0";
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

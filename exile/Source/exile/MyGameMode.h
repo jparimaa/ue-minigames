@@ -24,7 +24,7 @@ public:
 	void decreaseNumResidents(int amount = 1);
 
 	UFUNCTION(BlueprintCallable)
-		void addNumWoodCutters(int amount = 1);
+		void addNumTreeCutters(int amount = 1);
 
 	UFUNCTION(BlueprintCallable)
 		void addNumBuilders(int amount = 1);
@@ -41,7 +41,7 @@ protected:
 	UResourcesGUI* m_resourcesGUI = nullptr;
 
 	int m_numResidents = 0;
-	int m_numWoodCutters = 0;
+	int m_numTreeCutters = 0;
 	int m_numBuilders = 0;
 	int m_numWorkers = 0;
 

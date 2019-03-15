@@ -16,9 +16,9 @@ void UResourcesGUI::setNumResidents(uint16 numResidents)
 	m_numResidents = FString::FromInt(numResidents);
 }
 
-void UResourcesGUI::setNumWoodCutters(uint16 numWoodCutters)
+void UResourcesGUI::setNumTreeCutters(uint16 numTreeCutters)
 {
-	m_numWoodCutters = FString::FromInt(numWoodCutters);
+	m_numTreeCutters = FString::FromInt(numTreeCutters);
 }
 
 void UResourcesGUI::setNumBuilders(uint16 numBuilders)
