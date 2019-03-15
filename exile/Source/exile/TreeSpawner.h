@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Info.h"
 #include "TreeSpawner.generated.h"
+
 UCLASS()
 class EXILE_API ATreeSpawner : public AInfo
 {
