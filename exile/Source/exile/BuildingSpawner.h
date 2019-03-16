@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Camera/CameraComponent.h"
+#include "GameFramework/PlayerController.h"
+
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "BuildingSpawner.generated.h"
@@ -15,4 +18,8 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
+
+private:
+	UCameraComponent* m_mainCamera = nullptr;
+	APlayerController* m_playerController = nullptr;
 };
