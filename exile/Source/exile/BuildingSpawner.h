@@ -1,5 +1,7 @@
 #pragma once
 
+#include "House.h"
+
 #include "Camera/CameraComponent.h"
 #include "GameFramework/PlayerController.h"
 
@@ -16,10 +18,14 @@ public:
 	ABuildingSpawner();
 	virtual void Tick(float DeltaTime) override;
 
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<class AHouse> m_houseClass;
+
 protected:
 	virtual void BeginPlay() override;
 
 private:
 	UCameraComponent* m_mainCamera = nullptr;
 	APlayerController* m_playerController = nullptr;
+	AActor* m_currentBuilding = nullptr;
 };

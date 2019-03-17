@@ -23,6 +23,11 @@ void ABuildingSpawner::BeginPlay()
 		m_playerController = *iter;
 	}
 	check(m_playerController != nullptr);
+
+	FActorSpawnParameters spawnParameters;
+	FTransform m_currentTransform;
+	m_currentBuilding = (AHouse*)GetWorld()->SpawnActor(m_houseClass, &m_currentTransform, spawnParameters);
+
 }
 
 void ABuildingSpawner::Tick(float DeltaTime)
@@ -35,19 +40,25 @@ void ABuildingSpawner::Tick(float DeltaTime)
 	m_playerController->DeprojectMousePositionToWorld(mouseLocation, mouseDirection);
 
 	FVector end = ((mouseDirection * 10000.f) + start);
-	FCollisionQueryParams CollisionParams;
+	FCollisionQueryParams collisionParams;
+	collisionParams.AddIgnoredActor(m_currentBuilding);
 
 	DrawDebugLine(GetWorld(), start, end, FColor::Green, false, 10.0f, 0, 1.0f);
 
 	FHitResult outHit;
-	if (GetWorld()->LineTraceSingleByChannel(outHit, start, end, ECC_Visibility, CollisionParams))
+	if (GetWorld()->LineTraceSingleByChannel(outHit, start, end, ECC_Visibility, collisionParams))
 	{
-		if (outHit.bBlockingHit)
+		if (outHit.bBlockingHit && *outHit.GetActor()->GetName() == FString("Floor"))
 		{
 
 			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("You are hitting: %s"), *outHit.GetActor()->GetName()));
 			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Impact Point: %s"), *outHit.ImpactPoint.ToString()));
+
+			FVector actorLocation(outHit.ImpactPoint.X, outHit.ImpactPoint.Y, 0.0f);
+			m_currentBuilding->SetActorLocation(outHit.ImpactPoint);
 		}
 	}
+
+
 }
 
