@@ -1,7 +1,5 @@
 #pragma once
 
-#include "House.h"
-
 #include "Camera/CameraComponent.h"
 #include "GameFramework/PlayerController.h"
 

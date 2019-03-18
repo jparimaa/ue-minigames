@@ -1,17 +1,4 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
 #include "House.h"
-
-AHouse::AHouse()
-{
-	PrimaryActorTick.bCanEverTick = true;
-}
-
-void AHouse::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
-void AHouse::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-}
 

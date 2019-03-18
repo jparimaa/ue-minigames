@@ -1,4 +1,5 @@
 #include "BuildingSpawner.h"
+#include "House.h"
 #include "MainCamera.h"
 #include "EngineUtils.h"
 #include "DrawDebugHelpers.h"
@@ -12,6 +13,7 @@ ABuildingSpawner::ABuildingSpawner()
 void ABuildingSpawner::BeginPlay()
 {
 	Super::BeginPlay();
+
 	for (TActorIterator<AMainCamera> iter(GetWorld()); iter; ++iter)
 	{
 		m_mainCamera = Cast<UCameraComponent>(iter->GetComponentByClass(UCameraComponent::StaticClass()));
@@ -27,7 +29,7 @@ void ABuildingSpawner::BeginPlay()
 	FActorSpawnParameters spawnParameters;
 	FTransform m_currentTransform;
 	m_currentBuilding = (AHouse*)GetWorld()->SpawnActor(m_houseClass, &m_currentTransform, spawnParameters);
-
+	check(m_currentBuilding != nullptr);
 }
 
 void ABuildingSpawner::Tick(float DeltaTime)
@@ -50,7 +52,6 @@ void ABuildingSpawner::Tick(float DeltaTime)
 	{
 		if (outHit.bBlockingHit && *outHit.GetActor()->GetName() == FString("Floor"))
 		{
-
 			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("You are hitting: %s"), *outHit.GetActor()->GetName()));
 			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Impact Point: %s"), *outHit.ImpactPoint.ToString()));
 
