@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Building.h"
+
 #include "Camera/CameraComponent.h"
 #include "GameFramework/PlayerController.h"
 
@@ -25,5 +27,5 @@ protected:
 private:
 	UCameraComponent* m_mainCamera = nullptr;
 	APlayerController* m_playerController = nullptr;
-	AActor* m_currentBuilding = nullptr;
+	ABuilding* m_currentBuilding = nullptr;
 };

@@ -28,8 +28,9 @@ void ABuildingSpawner::BeginPlay()
 
 	FActorSpawnParameters spawnParameters;
 	FTransform m_currentTransform;
-	m_currentBuilding = (AHouse*)GetWorld()->SpawnActor(m_houseClass, &m_currentTransform, spawnParameters);
+	m_currentBuilding = (ABuilding*)GetWorld()->SpawnActor(m_houseClass, &m_currentTransform, spawnParameters);
 	check(m_currentBuilding != nullptr);
+	m_currentBuilding->setStatus(ABuilding::Status::Placing);
 }
 
 void ABuildingSpawner::Tick(float DeltaTime)
@@ -52,8 +53,8 @@ void ABuildingSpawner::Tick(float DeltaTime)
 	{
 		if (outHit.bBlockingHit && *outHit.GetActor()->GetName() == FString("Floor"))
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("You are hitting: %s"), *outHit.GetActor()->GetName()));
-			GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Impact Point: %s"), *outHit.ImpactPoint.ToString()));
+			//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("You are hitting: %s"), *outHit.GetActor()->GetName()));
+			//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Red, FString::Printf(TEXT("Impact Point: %s"), *outHit.ImpactPoint.ToString()));
 
 			FVector actorLocation(outHit.ImpactPoint.X, outHit.ImpactPoint.Y, 0.0f);
 			m_currentBuilding->SetActorLocation(outHit.ImpactPoint);
