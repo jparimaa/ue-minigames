@@ -10,7 +10,6 @@ UTreeCutter::UTreeCutter()
 void UTreeCutter::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Log, TEXT("##### UTreeCutter::BeginPlay()"));
 
 	m_owner = Cast<AResident>(GetOwner());
 

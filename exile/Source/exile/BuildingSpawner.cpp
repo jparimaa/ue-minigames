@@ -27,8 +27,8 @@ void ABuildingSpawner::BeginPlay()
 	check(m_playerController != nullptr);
 
 	FActorSpawnParameters spawnParameters;
-	FTransform m_currentTransform;
-	m_currentBuilding = (ABuilding*)GetWorld()->SpawnActor(m_houseClass, &m_currentTransform, spawnParameters);
+	FTransform transform(FVector(0.0f, 0.0f, 99999.0f));
+	m_currentBuilding = (ABuilding*)GetWorld()->SpawnActor(m_houseClass, &transform, spawnParameters);
 	check(m_currentBuilding != nullptr);
 	m_currentBuilding->setStatus(ABuilding::Status::Placing);
 }
@@ -46,7 +46,7 @@ void ABuildingSpawner::Tick(float DeltaTime)
 	FCollisionQueryParams collisionParams;
 	collisionParams.AddIgnoredActor(m_currentBuilding);
 
-	DrawDebugLine(GetWorld(), start, end, FColor::Green, false, 10.0f, 0, 1.0f);
+	DrawDebugLine(GetWorld(), start, end, FColor::Green, false, 3.0f, 0, 1.0f);
 
 	FHitResult outHit;
 	if (GetWorld()->LineTraceSingleByChannel(outHit, start, end, ECC_Visibility, collisionParams))

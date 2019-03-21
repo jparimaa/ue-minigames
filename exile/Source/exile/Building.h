@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Classes/Materials/Material.h"
+#include "Classes/Materials/MaterialInterface.h"
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -33,12 +34,19 @@ public:
 			bool bFromSweep,
 			const FHitResult& SweepResult);
 
+	UFUNCTION()
+		void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp,
+			class AActor* OtherActor,
+			class UPrimitiveComponent* OtherComp,
+			int32 OtherBodyIndex);
+
 	UPROPERTY(EditAnywhere)
-		UMaterial* unableToBuildMaterial;
+		UMaterial* m_unableToBuildMaterial;
 
 protected:
 	virtual void BeginPlay() override;
 
 private:
 	Status m_status = Status::Unknown;
+	TArray<UMaterialInterface*> m_originalMaterials;
 };

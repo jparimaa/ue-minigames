@@ -8,7 +8,6 @@ UBuilder::UBuilder()
 void UBuilder::BeginPlay()
 {
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Log, TEXT("##### UBuilder::BeginPlay()"));
 }
 
 void UBuilder::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
