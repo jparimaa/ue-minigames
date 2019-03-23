@@ -43,8 +43,12 @@ public:
 	UPROPERTY(EditAnywhere)
 		UMaterial* m_unableToBuildMaterial;
 
+	UPROPERTY(EditAnywhere)
+		UMaterial* m_buildInProcessMaterial;
+
 protected:
 	virtual void BeginPlay() override;
+	void setMaterial(UMaterialInterface* material);
 
 private:
 	Status m_status = Status::Unknown;

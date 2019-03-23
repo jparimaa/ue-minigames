@@ -29,13 +29,16 @@ void ABuilding::Tick(float DeltaTime)
 void ABuilding::setStatus(Status status)
 {
 	m_status = status;
+	if (status == Status::Placing)
+	{
+		setMaterial(m_buildInProcessMaterial);
+	}
 }
 
 ABuilding::Status ABuilding::getStatus()
 {
 	return m_status;
 }
-
 
 void ABuilding::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
 	class AActor* OtherActor,
@@ -46,18 +49,12 @@ void ABuilding::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
 {
 	//UE_LOG(LogTemp, Log, TEXT("ABuilding::OnOverlapBegin: OtherActor is %s"), *OtherActor->GetName());
 
-	if (OtherActor->GetName() == FString("Floor") || OtherActor == this)
+	if (OtherActor->GetName() == FString("Floor") || OtherActor == this || m_status != Status::Placing)
 	{
 		return;
 	}
 
-	TArray<UActorComponent*> components = GetComponentsByClass(UStaticMeshComponent::StaticClass());
-	for (UActorComponent* component : components)
-	{
-		UStaticMeshComponent* staticMesh = Cast<UStaticMeshComponent>(component);
-		check(staticMesh != nullptr);
-		staticMesh->SetMaterial(0, m_unableToBuildMaterial);
-	}
+	setMaterial(m_unableToBuildMaterial);
 }
 
 void ABuilding::OnOverlapEnd(class UPrimitiveComponent* OverlappedComp,
@@ -65,17 +62,21 @@ void ABuilding::OnOverlapEnd(class UPrimitiveComponent* OverlappedComp,
 	class UPrimitiveComponent* OtherComp,
 	int32 OtherBodyIndex)
 {
-	TArray<UActorComponent*> components = GetComponentsByClass(UStaticMeshComponent::StaticClass());
-
-	check(components.Num() > 0);
-	UStaticMeshComponent* firstStaticMesh = Cast<UStaticMeshComponent>(components[0]);
-	if (firstStaticMesh->GetMaterial(0) == m_unableToBuildMaterial)
+	if (m_status != Status::Placing)
 	{
-		for (int32 i = 0; i < components.Num(); ++i)
-		{
-			UStaticMeshComponent* staticMesh = Cast<UStaticMeshComponent>(components[i]);
-			check(staticMesh != nullptr);
-			staticMesh->SetMaterial(0, m_originalMaterials[i]);
-		}
+		return;
+	}
+
+	setMaterial(m_buildInProcessMaterial);
+}
+
+void ABuilding::setMaterial(UMaterialInterface* material)
+{
+	TArray<UActorComponent*> components = GetComponentsByClass(UStaticMeshComponent::StaticClass());
+	for (UActorComponent* component : components)
+	{
+		UStaticMeshComponent* staticMesh = Cast<UStaticMeshComponent>(component);
+		check(staticMesh != nullptr);
+		staticMesh->SetMaterial(0, material);
 	}
 }
