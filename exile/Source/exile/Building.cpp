@@ -44,9 +44,9 @@ void ABuilding::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
 	bool bFromSweep,
 	const FHitResult& SweepResult)
 {
-	UE_LOG(LogTemp, Log, TEXT("ABuilding::OnOverlapBegin: OtherActor is %s"), *OtherActor->GetName());
+	//UE_LOG(LogTemp, Log, TEXT("ABuilding::OnOverlapBegin: OtherActor is %s"), *OtherActor->GetName());
 
-	if (OtherActor->GetName() == FString("Floor"))
+	if (OtherActor->GetName() == FString("Floor") || OtherActor == this)
 	{
 		return;
 	}

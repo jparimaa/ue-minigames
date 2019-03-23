@@ -2,11 +2,13 @@
 
 #include "CoreMinimal.h"
 #include "Barn.h"
-#include "GameFramework/Character.h"
 #include "MyAIController.h"
 #include "Worker.h"
 #include "TreeCutter.h"
 #include "Builder.h"
+
+#include "GameFramework/Character.h"
+#include "EngineUtils.h"
 
 #include <limits>
 #include <functional>
@@ -34,21 +36,19 @@ public:
 	template<typename T>
 	T* findNearestActor(std::function<bool(T*)> predicate = [](bool dummy) {return true; })
 	{
-		TArray<AActor*> overlappingActors;
-		GetOverlappingActors(overlappingActors, T::StaticClass());
 		float smallestDistance = std::numeric_limits<float>::max();
 		AActor* nearestActor = nullptr;
-		for (AActor* actor : overlappingActors)
+		for (TActorIterator<T> iter(GetWorld()); iter; ++iter)
 		{
-			if (!predicate(Cast<T>(actor)))
+			if (!predicate(Cast<T>(*iter)))
 			{
 				continue;
 			}
-			float distance = actor->GetDistanceTo(this);
+			float distance = iter->GetDistanceTo(this);
 			if (distance < smallestDistance)
 			{
 				smallestDistance = distance;
-				nearestActor = actor;
+				nearestActor = *iter;
 			}
 		}
 		return Cast<T>(nearestActor);

@@ -22,7 +22,6 @@ void AMyGameMode::BeginPlay()
 
 void AMyGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass)
 {
-	UE_LOG(LogTemp, Log, TEXT("AMyGameMode::ChangeMenuWidget"));
 	if (CurrentWidget != nullptr)
 	{
 		CurrentWidget->RemoveFromViewport();

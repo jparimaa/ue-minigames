@@ -1,6 +1,5 @@
 #include "Resident.h"
 
-
 AResident::AResident()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -46,20 +45,18 @@ AResident::Profession AResident::getProfession() const
 
 ABarn* AResident::findNearestBarnWithSpace(uint16 spaceRequired)
 {
-	TArray<AActor*> overlappingActors;
-	GetOverlappingActors(overlappingActors, ABarn::StaticClass());
 	float smallestDistance = std::numeric_limits<float>::max();
 	ABarn* nearestBarn = nullptr;
-	for (AActor* actor : overlappingActors)
+	for (TActorIterator<ABarn> iter(GetWorld()); iter; ++iter)
 	{
-		ABarn* barn = Cast<ABarn>(actor);
-		float distance = actor->GetDistanceTo(this);
-		if (distance < smallestDistance && barn->getFreeSpace() >= spaceRequired)
+		float distance = iter->GetDistanceTo(this);
+		if (distance < smallestDistance && iter->getFreeSpace() >= spaceRequired)
 		{
 			smallestDistance = distance;
-			nearestBarn = Cast<ABarn>(actor);
+			nearestBarn = *iter;
 		}
 	}
+
 	return nearestBarn;
 }
 
