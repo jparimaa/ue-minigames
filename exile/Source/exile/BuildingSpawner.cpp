@@ -46,7 +46,7 @@ void ABuildingSpawner::Tick(float DeltaTime)
 	FCollisionQueryParams collisionParams;
 	collisionParams.AddIgnoredActor(m_currentBuilding);
 
-	DrawDebugLine(GetWorld(), start, end, FColor::Green, false, 3.0f, 0, 1.0f);
+	//DrawDebugLine(GetWorld(), start, end, FColor::Green, false, 3.0f, 0, 1.0f);
 
 	FHitResult outHit;
 	if (GetWorld()->LineTraceSingleByChannel(outHit, start, end, ECC_Visibility, collisionParams))

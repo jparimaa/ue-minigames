@@ -32,6 +32,13 @@ void ABuilding::setStatus(Status status)
 	if (status == Status::Placing)
 	{
 		setMaterial(m_buildInProcessMaterial);
+		TArray<UActorComponent*> components = GetComponentsByClass(UStaticMeshComponent::StaticClass());
+		for (UActorComponent* component : components)
+		{
+			UStaticMeshComponent* staticMesh = Cast<UStaticMeshComponent>(component);
+			check(staticMesh != nullptr);
+			staticMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		}
 	}
 }
 
