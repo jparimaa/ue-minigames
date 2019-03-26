@@ -25,7 +25,13 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	void setupInputComponent(UInputComponent* myInputComponent);
+
+	UFUNCTION()
+		void spawnBuilding();
+
 	UCameraComponent* m_mainCamera = nullptr;
 	APlayerController* m_playerController = nullptr;
 	ABuilding* m_currentBuilding = nullptr;
+	bool m_placing = true;
 };

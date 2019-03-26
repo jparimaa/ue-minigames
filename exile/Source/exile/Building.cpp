@@ -32,19 +32,22 @@ void ABuilding::setStatus(Status status)
 	if (status == Status::Placing)
 	{
 		setMaterial(m_buildInProcessMaterial);
-		TArray<UActorComponent*> components = GetComponentsByClass(UStaticMeshComponent::StaticClass());
-		for (UActorComponent* component : components)
-		{
-			UStaticMeshComponent* staticMesh = Cast<UStaticMeshComponent>(component);
-			check(staticMesh != nullptr);
-			staticMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		}
+		setCollision(ECollisionEnabled::NoCollision);
+	}
+	else if (status == Status::Constructing)
+	{
+		setCollision(ECollisionEnabled::QueryAndPhysics);
 	}
 }
 
 ABuilding::Status ABuilding::getStatus()
 {
 	return m_status;
+}
+
+bool ABuilding::allowPlacing()
+{
+	return m_allowPlacing;
 }
 
 void ABuilding::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
@@ -62,6 +65,7 @@ void ABuilding::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
 	}
 
 	setMaterial(m_unableToBuildMaterial);
+	m_allowPlacing = false;
 }
 
 void ABuilding::OnOverlapEnd(class UPrimitiveComponent* OverlappedComp,
@@ -75,6 +79,7 @@ void ABuilding::OnOverlapEnd(class UPrimitiveComponent* OverlappedComp,
 	}
 
 	setMaterial(m_buildInProcessMaterial);
+	m_allowPlacing = true;
 }
 
 void ABuilding::setMaterial(UMaterialInterface* material)
@@ -85,5 +90,16 @@ void ABuilding::setMaterial(UMaterialInterface* material)
 		UStaticMeshComponent* staticMesh = Cast<UStaticMeshComponent>(component);
 		check(staticMesh != nullptr);
 		staticMesh->SetMaterial(0, material);
+	}
+}
+
+void ABuilding::setCollision(ECollisionEnabled::Type collision)
+{
+	TArray<UActorComponent*> components = GetComponentsByClass(UStaticMeshComponent::StaticClass());
+	for (UActorComponent* component : components)
+	{
+		UStaticMeshComponent* staticMesh = Cast<UStaticMeshComponent>(component);
+		check(staticMesh != nullptr);
+		staticMesh->SetCollisionEnabled(collision);
 	}
 }

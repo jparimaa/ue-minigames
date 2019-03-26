@@ -17,6 +17,7 @@ public:
 	{
 		InGame,
 		Placing,
+		Constructing,
 		Unknown
 	};
 
@@ -25,6 +26,8 @@ public:
 
 	void setStatus(Status status);
 	Status getStatus();
+
+	bool allowPlacing();
 
 	UFUNCTION()
 		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
@@ -49,8 +52,10 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	void setMaterial(UMaterialInterface* material);
+	void setCollision(ECollisionEnabled::Type collision);
 
 private:
 	Status m_status = Status::Unknown;
 	TArray<UMaterialInterface*> m_originalMaterials;
+	bool m_allowPlacing = true;
 };
