@@ -18,6 +18,13 @@ void AMyGameMode::BeginPlay()
 		++numResidents;
 	}
 	increaseNumResidents(numResidents);
+
+	for (TActorIterator<ABuildingSpawner> iter(GetWorld()); iter; ++iter)
+	{
+		m_buildingSpawner = *iter;
+		break;
+	}
+	check(m_buildingSpawner != nullptr);
 }
 
 void AMyGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass)
@@ -89,6 +96,11 @@ void AMyGameMode::addNumBuilders(int amount)
 	checkNumResidentsAndProfessions();
 	m_resourcesGUI->setNumBuilders(m_numBuilders);
 	updateResidentProfessions();
+}
+
+ABuildingSpawner* AMyGameMode::getBuildingSpawner()
+{
+	return m_buildingSpawner;
 }
 
 void AMyGameMode::addNumWorkers(int amount)

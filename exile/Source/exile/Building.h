@@ -13,6 +13,12 @@ class EXILE_API ABuilding : public AActor
 	GENERATED_BODY()
 
 public:
+
+	enum class Type
+	{
+		House = 1
+	};
+
 	enum class Status
 	{
 		InGame,

@@ -18,6 +18,9 @@ public:
 	ABuildingSpawner();
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable)
+		void placeBuilding(int type);
+
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<class AHouse> m_houseClass;
 
@@ -33,5 +36,5 @@ private:
 	UCameraComponent* m_mainCamera = nullptr;
 	APlayerController* m_playerController = nullptr;
 	ABuilding* m_currentBuilding = nullptr;
-	bool m_placing = true;
+	bool m_placing = false;
 };

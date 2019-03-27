@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Building.h"
+#include "BuildingSpawner.h"
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "Blueprint/UserWidget.h"
@@ -29,21 +31,14 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void addNumBuilders(int amount = 1);
 
+	UFUNCTION(BlueprintCallable)
+		ABuildingSpawner* getBuildingSpawner();
+
 protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UMG Game")
 		TSubclassOf<UUserWidget> StartingWidgetClass;
-
-	UPROPERTY()
-		UUserWidget* CurrentWidget;
-
-	UResourcesGUI* m_resourcesGUI = nullptr;
-
-	int m_numResidents = 0;
-	int m_numTreeCutters = 0;
-	int m_numBuilders = 0;
-	int m_numWorkers = 0;
 
 private:
 	void addNumWorkers(int amount = 1);
@@ -54,4 +49,15 @@ private:
 	void checkNumResidentsAndProfessions();
 
 	void updateResidentProfessions();
+
+	UPROPERTY()
+		UUserWidget* CurrentWidget;
+
+	UResourcesGUI* m_resourcesGUI = nullptr;
+	ABuildingSpawner* m_buildingSpawner = nullptr;
+
+	int m_numResidents = 0;
+	int m_numTreeCutters = 0;
+	int m_numBuilders = 0;
+	int m_numWorkers = 0;
 };

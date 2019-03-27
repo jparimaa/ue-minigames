@@ -21,7 +21,6 @@ void ABuildingSpawner::BeginPlay()
 		setupInputComponent(inputComponent);
 	}
 
-
 	for (TActorIterator<AMainCamera> iter(GetWorld()); iter; ++iter)
 	{
 		m_mainCamera = Cast<UCameraComponent>(iter->GetComponentByClass(UCameraComponent::StaticClass()));
@@ -71,6 +70,11 @@ void ABuildingSpawner::Tick(float DeltaTime)
 			}
 		}
 	}
+}
+
+void ABuildingSpawner::placeBuilding(int type)
+{
+	m_placing = true;
 }
 
 void ABuildingSpawner::setupInputComponent(UInputComponent* myInputComponent)
