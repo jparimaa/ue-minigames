@@ -32,12 +32,6 @@ void ABuildingSpawner::BeginPlay()
 		m_playerController = *iter;
 	}
 	check(m_playerController != nullptr);
-
-	FActorSpawnParameters spawnParameters;
-	FTransform transform(FVector(0.0f, 0.0f, 99999.0f));
-	m_currentBuilding = (ABuilding*)GetWorld()->SpawnActor(m_houseClass, &transform, spawnParameters);
-	check(m_currentBuilding != nullptr);
-	m_currentBuilding->setStatus(ABuilding::Status::Placing);
 }
 
 void ABuildingSpawner::Tick(float DeltaTime)
@@ -75,6 +69,12 @@ void ABuildingSpawner::Tick(float DeltaTime)
 void ABuildingSpawner::placeBuilding(int type)
 {
 	m_placing = true;
+
+	FActorSpawnParameters spawnParameters;
+	FTransform transform(FVector(0.0f, 0.0f, 99999.0f));
+	m_currentBuilding = (ABuilding*)GetWorld()->SpawnActor(m_houseClass, &transform, spawnParameters);
+	check(m_currentBuilding != nullptr);
+	m_currentBuilding->setStatus(ABuilding::Status::Placing);
 }
 
 void ABuildingSpawner::setupInputComponent(UInputComponent* myInputComponent)
@@ -87,6 +87,7 @@ void ABuildingSpawner::spawnBuilding()
 	if (m_placing && m_currentBuilding->allowPlacing())
 	{
 		m_currentBuilding->setStatus(ABuilding::Status::Constructing);
+		m_currentBuilding->setProgressText(FString("Constructing"));
 		m_placing = false;
 	}
 }

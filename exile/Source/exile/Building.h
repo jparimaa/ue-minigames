@@ -1,5 +1,7 @@
 #pragma once
 
+#include "BuildingProgress.h"
+
 #include "Classes/Materials/Material.h"
 #include "Classes/Materials/MaterialInterface.h"
 
@@ -33,6 +35,8 @@ public:
 	void setStatus(Status status);
 	Status getStatus();
 
+	void setProgressText(const FString& text);
+
 	bool allowPlacing();
 
 	UFUNCTION()
@@ -55,10 +59,15 @@ public:
 	UPROPERTY(EditAnywhere)
 		UMaterial* m_buildInProcessMaterial;
 
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<class ABuildingProgress> m_buildingProgressClass;
+
 protected:
 	virtual void BeginPlay() override;
 	void setMaterial(UMaterialInterface* material);
 	void setCollision(ECollisionEnabled::Type collision);
+
+	ABuildingProgress* m_buildingProgress = nullptr;
 
 private:
 	Status m_status = Status::Unknown;

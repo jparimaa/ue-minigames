@@ -22,7 +22,6 @@ void AMyGameMode::BeginPlay()
 	for (TActorIterator<ABuildingSpawner> iter(GetWorld()); iter; ++iter)
 	{
 		m_buildingSpawner = *iter;
-		break;
 	}
 	check(m_buildingSpawner != nullptr);
 }

@@ -19,6 +19,12 @@ void ABuilding::BeginPlay()
 		check(staticMesh != nullptr);
 		m_originalMaterials.Add(staticMesh->GetMaterial(0));
 	}
+
+	FActorSpawnParameters spawnParameters;
+	FTransform transform(FVector(0.0f, 0.0f, 150.0f));
+	m_buildingProgress = (ABuildingProgress*)GetWorld()->SpawnActor(m_buildingProgressClass, &transform, spawnParameters);
+	check(m_buildingProgress != nullptr);
+	m_buildingProgress->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 void ABuilding::Tick(float DeltaTime)
@@ -43,6 +49,11 @@ void ABuilding::setStatus(Status status)
 ABuilding::Status ABuilding::getStatus()
 {
 	return m_status;
+}
+
+void ABuilding::setProgressText(const FString& text)
+{
+	m_buildingProgress->setText(text);
 }
 
 bool ABuilding::allowPlacing()
