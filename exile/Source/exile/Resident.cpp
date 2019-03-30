@@ -21,6 +21,13 @@ void AResident::BeginPlay()
 	m_worker->setEnabled(true);
 	m_treeCutter->setEnabled(false);
 	m_builder->setEnabled(false);
+
+	FActorSpawnParameters spawnParameters;
+	FTransform transform(FVector(0.0f, 0.0f, 0.0f));
+	m_infoText = (AInfoText*)GetWorld()->SpawnActor(m_infoTextClass, &transform, spawnParameters);
+	check(m_infoText != nullptr);
+	m_infoText->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
+	m_infoText->setText(FString("Worker"));
 }
 
 
@@ -36,6 +43,7 @@ void AResident::setProfession(Profession profession)
 	m_worker->setEnabled(profession == Profession::Worker);
 	m_treeCutter->setEnabled(profession == Profession::TreeCutter);
 	m_builder->setEnabled(profession == Profession::Builder);
+	m_infoText->setText(professionToString[profession]);
 }
 
 AResident::Profession AResident::getProfession() const

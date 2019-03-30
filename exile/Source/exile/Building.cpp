@@ -21,7 +21,7 @@ void ABuilding::BeginPlay()
 	}
 
 	FActorSpawnParameters spawnParameters;
-	FTransform transform(FVector(0.0f, 0.0f, 150.0f));
+	FTransform transform(FVector(0.0f, 0.0f, 0.0f));
 	m_infoText = (AInfoText*)GetWorld()->SpawnActor(m_infoTextClass, &transform, spawnParameters);
 	check(m_infoText != nullptr);
 	m_infoText->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);

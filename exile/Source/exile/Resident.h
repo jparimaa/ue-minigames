@@ -6,6 +6,7 @@
 #include "Worker.h"
 #include "TreeCutter.h"
 #include "Builder.h"
+#include "InfoText.h"
 
 #include "GameFramework/Character.h"
 #include "EngineUtils.h"
@@ -26,6 +27,13 @@ public:
 		Worker,
 		TreeCutter,
 		Builder
+	};
+
+	const TMap< Profession, FString> professionToString =
+	{
+		TPairInitializer<const Profession&, const FString&>(Profession::Worker, FString("Worker")),
+		TPairInitializer<const Profession&, const FString&>(Profession::TreeCutter, FString("Tree cutter")),
+		TPairInitializer<const Profession&, const FString&>(Profession::Builder, FString("Builder"))
 	};
 
 	AResident();
@@ -62,8 +70,13 @@ public:
 	UPROPERTY(VisibleAnywhere)
 		FVector m_destination;
 
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<class AInfoText> m_infoTextClass;
+
 protected:
 	virtual void BeginPlay() override;
+
+	AInfoText* m_infoText = nullptr;
 
 private:
 	UPROPERTY(VisibleAnywhere)
