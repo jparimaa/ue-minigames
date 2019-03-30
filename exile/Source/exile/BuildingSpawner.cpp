@@ -87,7 +87,7 @@ void ABuildingSpawner::spawnBuilding()
 	if (m_placing && m_currentBuilding->allowPlacing())
 	{
 		m_currentBuilding->setStatus(ABuilding::Status::Constructing);
-		m_currentBuilding->setProgressText(FString("Constructing"));
+		m_currentBuilding->setProgressText(FString("0 %"));
 		m_placing = false;
 	}
 }

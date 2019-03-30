@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BuildingProgress.h"
+#include "InfoText.h"
 
 #include "Classes/Materials/Material.h"
 #include "Classes/Materials/MaterialInterface.h"
@@ -60,14 +60,14 @@ public:
 		UMaterial* m_buildInProcessMaterial;
 
 	UPROPERTY(EditAnywhere)
-		TSubclassOf<class ABuildingProgress> m_buildingProgressClass;
+		TSubclassOf<class AInfoText> m_infoTextClass;
 
 protected:
 	virtual void BeginPlay() override;
 	void setMaterial(UMaterialInterface* material);
 	void setCollision(ECollisionEnabled::Type collision);
 
-	ABuildingProgress* m_buildingProgress = nullptr;
+	AInfoText* m_infoText = nullptr;
 
 private:
 	Status m_status = Status::Unknown;

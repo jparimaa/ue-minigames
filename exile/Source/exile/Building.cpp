@@ -22,9 +22,9 @@ void ABuilding::BeginPlay()
 
 	FActorSpawnParameters spawnParameters;
 	FTransform transform(FVector(0.0f, 0.0f, 150.0f));
-	m_buildingProgress = (ABuildingProgress*)GetWorld()->SpawnActor(m_buildingProgressClass, &transform, spawnParameters);
-	check(m_buildingProgress != nullptr);
-	m_buildingProgress->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
+	m_infoText = (AInfoText*)GetWorld()->SpawnActor(m_infoTextClass, &transform, spawnParameters);
+	check(m_infoText != nullptr);
+	m_infoText->AttachToActor(this, FAttachmentTransformRules::KeepRelativeTransform);
 }
 
 void ABuilding::Tick(float DeltaTime)
@@ -53,7 +53,7 @@ ABuilding::Status ABuilding::getStatus()
 
 void ABuilding::setProgressText(const FString& text)
 {
-	m_buildingProgress->setText(text);
+	m_infoText->setText(text);
 }
 
 bool ABuilding::allowPlacing()
