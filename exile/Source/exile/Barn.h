@@ -15,6 +15,7 @@ public:
 	ABarn();
 	void addWood(uint16 amount);
 	uint16 getWoodAmount();
+	uint16 takeWood(uint16 maxAmount);
 	uint16 getFreeSpace();
 
 protected:

@@ -75,6 +75,7 @@ void ABuildingSpawner::placeBuilding(int type)
 	m_currentBuilding = (ABuilding*)GetWorld()->SpawnActor(m_houseClass, &transform, spawnParameters);
 	check(m_currentBuilding != nullptr);
 	m_currentBuilding->setStatus(ABuilding::Status::Placing);
+	m_currentBuilding->setType(ABuilding::Type::House);
 }
 
 void ABuildingSpawner::setupInputComponent(UInputComponent* myInputComponent)

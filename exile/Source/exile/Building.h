@@ -29,6 +29,11 @@ public:
 		Unknown
 	};
 
+	const TMap<Type, uint16> woodRequiredByType =
+	{
+		TPairInitializer<const Type&, const uint16&>(Type::House, 300)
+	};
+
 	ABuilding();
 	virtual void Tick(float DeltaTime) override;
 
@@ -36,8 +41,12 @@ public:
 	Status getStatus();
 
 	void setProgressText(const FString& text);
+	void setType(Type type);
 
 	bool allowPlacing();
+
+	void addWoodForConstruction(uint16 amount);
+	uint16 getWoodRequiredForConstruction() const;
 
 	UFUNCTION()
 		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
@@ -69,7 +78,11 @@ protected:
 
 	AInfoText* m_infoText = nullptr;
 
+	UPROPERTY(VisibleAnywhere)
+		uint16 m_amountWoodForConstruction = 0;
+
 private:
+	Type m_type;
 	Status m_status = Status::Unknown;
 	TArray<UMaterialInterface*> m_originalMaterials;
 	bool m_allowPlacing = true;

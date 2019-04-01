@@ -1,5 +1,7 @@
 #include "Barn.h"
 
+#include <algorithm>
+
 ABarn::ABarn()
 {
 	PrimaryActorTick.bCanEverTick = false;
@@ -22,6 +24,14 @@ void ABarn::addWood(uint16 amount)
 uint16 ABarn::getWoodAmount()
 {
 	return m_woodAmount;
+}
+
+uint16 ABarn::takeWood(uint16 maxAmount)
+{
+	uint16 takeAmount = std::min(maxAmount, m_woodAmount);
+	m_woodAmount -= takeAmount;
+	m_gameMode->updateResources();
+	return takeAmount;
 }
 
 uint16 ABarn::getFreeSpace()

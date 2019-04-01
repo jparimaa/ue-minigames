@@ -35,6 +35,9 @@ private:
 		WaitingForBuilding
 	};
 
+	ABuilding* getBuildingToCarryWood();
+	ABarn* getBarnWithWood();
+
 	UPROPERTY(VisibleAnywhere)
 		bool m_enabled = false;
 
@@ -42,6 +45,11 @@ private:
 
 	Status m_status = Status::WaitingForBuilding;
 
-	ABarn* m_barnToGetWoodFrom = nullptr;
-	ABuilding* m_buildingToCarryWoodTo = nullptr;
+	UPROPERTY(VisibleAnywhere)
+		ABarn* m_barnToGetWoodFrom = nullptr;
+	UPROPERTY(VisibleAnywhere)
+		ABuilding* m_buildingToCarryWoodTo = nullptr;
+
+	UPROPERTY(VisibleAnywhere)
+		uint16 m_amountWoodCarrying = 0;
 };

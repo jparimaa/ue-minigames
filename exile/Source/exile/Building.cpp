@@ -56,9 +56,24 @@ void ABuilding::setProgressText(const FString& text)
 	m_infoText->setText(text);
 }
 
+void ABuilding::setType(Type type)
+{
+	m_type = type;
+}
+
 bool ABuilding::allowPlacing()
 {
 	return m_allowPlacing;
+}
+
+void ABuilding::addWoodForConstruction(uint16 amount)
+{
+	m_amountWoodForConstruction += amount;
+}
+
+uint16 ABuilding::getWoodRequiredForConstruction() const
+{
+	return woodRequiredByType[m_type] - m_amountWoodForConstruction;
 }
 
 void ABuilding::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
