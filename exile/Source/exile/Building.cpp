@@ -3,6 +3,10 @@
 #include "EngineUtils.h"
 #include "Engine.h"
 
+#include <algorithm>
+
+const uint16 ABuilding::c_woodPerConstructionPoint = 50;
+
 ABuilding::ABuilding()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -59,6 +63,7 @@ void ABuilding::setProgressText(const FString& text)
 void ABuilding::setType(Type type)
 {
 	m_type = type;
+	m_constructionPointsRequired = woodRequiredByType[m_type] / c_woodPerConstructionPoint;
 }
 
 bool ABuilding::allowPlacing()
@@ -69,11 +74,29 @@ bool ABuilding::allowPlacing()
 void ABuilding::addWoodForConstruction(uint16 amount)
 {
 	m_amountWoodForConstruction += amount;
+	if (getWoodRequiredForConstruction() == 0)
+	{
+		m_status = Status::Constructing;
+	}
 }
 
 uint16 ABuilding::getWoodRequiredForConstruction() const
 {
-	return woodRequiredByType[m_type] - m_amountWoodForConstruction;
+	return std::max(0, woodRequiredByType[m_type] - m_amountWoodForConstruction);
+}
+
+void ABuilding::addConstructionPoints(uint16 amount)
+{
+	m_constructionPoints += amount;
+	if (m_constructionPoints >= m_constructionPointsRequired)
+	{
+		m_status = Status::InGame;
+	}
+}
+
+uint16 ABuilding::getConstructionPointsRequired() const
+{
+	return m_constructionPointsRequired - m_constructionPoints;
 }
 
 void ABuilding::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,

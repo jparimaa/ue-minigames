@@ -64,6 +64,7 @@ void UWorker::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponen
 		}
 		else if (newBarn == nullptr)
 		{
+			m_owner->stopMovement();
 			m_status = Status::WaitingForWood;
 		}
 		m_barnToGetWoodFrom = newBarn;
@@ -87,7 +88,7 @@ void UWorker::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponen
 ABuilding* UWorker::getBuildingToCarryWood()
 {
 	return m_owner->findNearestActor<ABuilding>([](ABuilding* building) {
-		return building->getStatus() == ABuilding::Status::Constructing && building->getWoodRequiredForConstruction() > 0;
+		return building->getStatus() == ABuilding::Status::GettingWood && building->getWoodRequiredForConstruction() > 0;
 	});
 }
 

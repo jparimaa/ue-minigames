@@ -26,6 +26,7 @@ public:
 		InGame,
 		Placing,
 		Constructing,
+		GettingWood,
 		Unknown
 	};
 
@@ -33,6 +34,8 @@ public:
 	{
 		TPairInitializer<const Type&, const uint16&>(Type::House, 300)
 	};
+
+	static const uint16 c_woodPerConstructionPoint;
 
 	ABuilding();
 	virtual void Tick(float DeltaTime) override;
@@ -47,6 +50,9 @@ public:
 
 	void addWoodForConstruction(uint16 amount);
 	uint16 getWoodRequiredForConstruction() const;
+
+	void addConstructionPoints(uint16 amount = 1);
+	uint16 getConstructionPointsRequired() const;
 
 	UFUNCTION()
 		void OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
@@ -80,6 +86,12 @@ protected:
 
 	UPROPERTY(VisibleAnywhere)
 		uint16 m_amountWoodForConstruction = 0;
+
+	UPROPERTY(VisibleAnywhere)
+		uint16 m_constructionPoints = 0;
+
+	UPROPERTY(VisibleAnywhere)
+		uint16 m_constructionPointsRequired = 0;
 
 private:
 	Type m_type;
