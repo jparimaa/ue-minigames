@@ -74,6 +74,11 @@ bool ABuilding::allowPlacing()
 void ABuilding::addWoodForConstruction(uint16 amount)
 {
 	m_amountWoodForConstruction += amount;
+	uint16 woodRequired = getWoodRequiredForConstruction();
+
+	float percentage = 0.5f * (static_cast<float>(m_amountWoodForConstruction) / static_cast<float>(woodRequiredByType[m_type])) * 100.0f;
+	m_infoText->setText(FString::SanitizeFloat(percentage) + FString(" %"));
+
 	if (getWoodRequiredForConstruction() == 0)
 	{
 		m_status = Status::Constructing;
@@ -88,8 +93,12 @@ uint16 ABuilding::getWoodRequiredForConstruction() const
 void ABuilding::addConstructionPoints(uint16 amount)
 {
 	m_constructionPoints += amount;
+	float percentage = 0.5f + 0.5f * (static_cast<float>(m_constructionPoints) / static_cast<float>(m_constructionPointsRequired) * 100.0f);
+	m_infoText->setText(FString::SanitizeFloat(percentage) + FString(" %"));
+
 	if (m_constructionPoints >= m_constructionPointsRequired)
 	{
+		m_infoText->setText(FString(""));
 		m_status = Status::InGame;
 	}
 }

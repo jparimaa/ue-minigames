@@ -29,7 +29,7 @@ protected:
 private:
 	enum class Status
 	{
-		WaitingForBuilding,
+		WaitingForBuilding = 0,
 		WalkingToBuilding,
 		Building
 	};

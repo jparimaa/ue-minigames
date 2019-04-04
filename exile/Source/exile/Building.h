@@ -32,7 +32,7 @@ public:
 
 	const TMap<Type, uint16> woodRequiredByType =
 	{
-		TPairInitializer<const Type&, const uint16&>(Type::House, 300)
+		TPairInitializer<const Type&, const uint16&>(Type::House, 50)
 	};
 
 	static const uint16 c_woodPerConstructionPoint;

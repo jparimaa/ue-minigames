@@ -37,6 +37,7 @@ void UBuilder::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		if (m_buildingToConstruct != nullptr)
 		{
 			m_status = Status::WalkingToBuilding;
+			m_owner->moveToActor(m_buildingToConstruct);
 		}
 	}
 
@@ -44,7 +45,7 @@ void UBuilder::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 	{
 		check(m_buildingToConstruct != nullptr);
 		ABuilding* newBuilding = getBuildingToConstruct();
-		if (m_buildingToConstruct == nullptr)
+		if (newBuilding == nullptr)
 		{
 			m_status = Status::WaitingForBuilding;
 			m_owner->stopMovement();
