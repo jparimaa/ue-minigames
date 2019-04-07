@@ -77,9 +77,11 @@ public:
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<class AInfoText> m_infoTextClass;
 
+	void setMaterial(UMaterialInterface* material);
+	virtual void setInGameMaterial();
+
 protected:
 	virtual void BeginPlay() override;
-	void setMaterial(UMaterialInterface* material);
 	void setCollision(ECollisionEnabled::Type collision);
 
 	AInfoText* m_infoText = nullptr;

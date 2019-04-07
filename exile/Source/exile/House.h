@@ -11,6 +11,10 @@ class EXILE_API AHouse : public ABuilding
 
 public:
 	AHouse();
+	virtual void setInGameMaterial();
+
+	UPROPERTY(EditAnywhere)
+		UMaterial* m_inGameMaterial;
 
 protected:
 	virtual void BeginPlay() override;

@@ -81,7 +81,7 @@ void ABuilding::addWoodForConstruction(uint16 amount)
 
 	if (getWoodRequiredForConstruction() == 0)
 	{
-		m_status = Status::Constructing;
+		setStatus(Status::Constructing);
 	}
 }
 
@@ -99,7 +99,8 @@ void ABuilding::addConstructionPoints(uint16 amount)
 	if (m_constructionPoints >= m_constructionPointsRequired)
 	{
 		m_infoText->setText(FString(""));
-		m_status = Status::InGame;
+		setStatus(Status::InGame);
+		setInGameMaterial();
 	}
 }
 
@@ -115,8 +116,6 @@ void ABuilding::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
 	bool bFromSweep,
 	const FHitResult& SweepResult)
 {
-	//UE_LOG(LogTemp, Log, TEXT("ABuilding::OnOverlapBegin: OtherActor is %s"), *OtherActor->GetName());
-
 	if (OtherActor->GetName() == FString("Floor") || OtherActor == this || m_status != Status::Placing)
 	{
 		return;
@@ -138,6 +137,11 @@ void ABuilding::OnOverlapEnd(class UPrimitiveComponent* OverlappedComp,
 
 	setMaterial(m_buildInProcessMaterial);
 	m_allowPlacing = true;
+}
+
+void ABuilding::setInGameMaterial()
+{
+	check(false);
 }
 
 void ABuilding::setMaterial(UMaterialInterface* material)

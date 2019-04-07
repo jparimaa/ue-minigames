@@ -13,3 +13,8 @@ void AHouse::BeginPlay()
 	sphereComponent->OnComponentBeginOverlap.AddDynamic(this, &ABuilding::OnOverlapBegin);
 	sphereComponent->OnComponentEndOverlap.AddDynamic(this, &ABuilding::OnOverlapEnd);
 }
+
+void AHouse::setInGameMaterial()
+{
+	setMaterial(m_inGameMaterial);
+}
