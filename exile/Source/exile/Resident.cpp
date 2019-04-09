@@ -86,3 +86,8 @@ FVector AResident::getMoveDestination()
 	return m_aiController->GetImmediateMoveDestination();
 }
 
+EPathFollowingStatus::Type AResident::getMoveStatus()
+{
+	check(m_aiController != nullptr);
+	return m_aiController->GetMoveStatus();
+}

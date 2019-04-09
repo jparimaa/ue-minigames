@@ -66,6 +66,7 @@ public:
 	void moveToActor(AActor* actor);
 	void stopMovement();
 	FVector getMoveDestination();
+	EPathFollowingStatus::Type getMoveStatus();
 
 	UPROPERTY(VisibleAnywhere)
 		FVector m_destination;

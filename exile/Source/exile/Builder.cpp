@@ -57,6 +57,15 @@ void UBuilder::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 		m_buildingToConstruct = newBuilding;
 	}
 
+	if (m_status == Status::WalkingToBuilding && m_owner->getMoveStatus() == EPathFollowingStatus::Idle)
+	{
+		check(m_buildingToConstruct != nullptr);
+		if (FVector::Distance(m_owner->GetActorLocation(), m_buildingToConstruct->GetActorLocation()) < 300.0f)
+		{
+			m_status = Status::Building;
+		}
+	}
+
 	if (m_status == Status::Building)
 	{
 		if (m_buildingToConstruct->getConstructionPointsRequired() == 0)
@@ -78,6 +87,11 @@ void UBuilder::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 void UBuilder::setEnabled(bool status)
 {
 	m_enabled = status;
+	if (!m_enabled)
+	{
+		m_status = Status::WaitingForBuilding;
+		m_buildingToConstruct = nullptr;
+	}
 }
 
 void UBuilder::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
