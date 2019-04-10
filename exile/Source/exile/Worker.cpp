@@ -42,32 +42,32 @@ void UWorker::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponen
 		}
 	}
 
-	if (m_status == Status::WaitingForWood && m_barnToGetWoodFrom == nullptr)
+	if (m_status == Status::WaitingForWood && m_storageToGetWoodFrom == nullptr)
 	{
 		check(m_buildingToCarryWoodTo != nullptr);
-		m_barnToGetWoodFrom = getBarnWithWood();
-		if (m_barnToGetWoodFrom != nullptr)
+		m_storageToGetWoodFrom = getStorageWithWood();
+		if (m_storageToGetWoodFrom != nullptr)
 		{
-			m_status = Status::GettingWoodFromBarn;
-			m_owner->moveToActor(m_barnToGetWoodFrom);
+			m_status = Status::GettingWoodFromStorage;
+			m_owner->moveToActor(m_storageToGetWoodFrom);
 		}
 	}
 
-	if (m_status == Status::GettingWoodFromBarn)
+	if (m_status == Status::GettingWoodFromStorage)
 	{
 		check(m_buildingToCarryWoodTo != nullptr);
-		check(m_barnToGetWoodFrom != nullptr);
-		ABarn* newBarn = getBarnWithWood();
-		if (newBarn != m_barnToGetWoodFrom)
+		check(m_storageToGetWoodFrom != nullptr);
+		AStorage* newStorage = getStorageWithWood();
+		if (newStorage != m_storageToGetWoodFrom)
 		{
-			m_owner->moveToActor(m_barnToGetWoodFrom);
+			m_owner->moveToActor(m_storageToGetWoodFrom);
 		}
-		else if (newBarn == nullptr)
+		else if (newStorage == nullptr)
 		{
 			m_owner->stopMovement();
 			m_status = Status::WaitingForWood;
 		}
-		m_barnToGetWoodFrom = newBarn;
+		m_storageToGetWoodFrom = newStorage;
 	}
 
 	if (m_status == Status::CarryingWoodToBuilding)
@@ -92,9 +92,9 @@ ABuilding* UWorker::getBuildingToCarryWood()
 	});
 }
 
-ABarn* UWorker::getBarnWithWood()
+AStorage* UWorker::getStorageWithWood()
 {
-	return m_owner->findNearestActor<ABarn>([](ABarn* barn) { return barn->getWoodAmount() > 0; });
+	return m_owner->findNearestActor<AStorage>([](AStorage* storage) { return storage->getWoodAmount() > 0; });
 }
 
 void UWorker::setEnabled(bool status)
@@ -109,7 +109,7 @@ void UWorker::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
 	bool bFromSweep,
 	const FHitResult& SweepResult)
 {
-	if (m_status == Status::GettingWoodFromBarn && OtherActor == m_barnToGetWoodFrom)
+	if (m_status == Status::GettingWoodFromStorage && OtherActor == m_storageToGetWoodFrom)
 	{
 		m_owner->stopMovement();
 
@@ -117,7 +117,7 @@ void UWorker::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
 
 		if (newBuilding != nullptr)
 		{
-			m_amountWoodCarrying = m_barnToGetWoodFrom->takeWood(c_maxAmountWoodCarrying - m_amountWoodCarrying);
+			m_amountWoodCarrying = m_storageToGetWoodFrom->takeWood(c_maxAmountWoodCarrying - m_amountWoodCarrying);
 			m_status = Status::CarryingWoodToBuilding;
 			m_buildingToCarryWoodTo = newBuilding;
 			m_owner->moveToActor(m_buildingToCarryWoodTo);
@@ -131,7 +131,7 @@ void UWorker::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
 		uint16 amountWoodToAdd = std::min(woodRequired, m_amountWoodCarrying);
 		m_buildingToCarryWoodTo->addWoodForConstruction(amountWoodToAdd);
 		m_amountWoodCarrying -= amountWoodToAdd;
-		m_barnToGetWoodFrom = nullptr;
+		m_storageToGetWoodFrom = nullptr;
 		m_buildingToCarryWoodTo = nullptr;
 		m_status = Status::WaitingForBuilding;
 	}

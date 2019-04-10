@@ -1,6 +1,6 @@
 #include "MyGameMode.h"
 #include "ResourcesGUI.h"
-#include "Barn.h"
+#include "Storage.h"
 #include "Resident.h"
 #include "EngineUtils.h"
 
@@ -51,7 +51,7 @@ void AMyGameMode::setResourcesGUI(UResourcesGUI* resourcesGUI)
 void AMyGameMode::updateResources()
 {
 	uint16 totalWoodAmount = 0;
-	for (TActorIterator<ABarn> iter(GetWorld()); iter; ++iter)
+	for (TActorIterator<AStorage> iter(GetWorld()); iter; ++iter)
 	{
 		totalWoodAmount += iter->getWoodAmount();
 	}

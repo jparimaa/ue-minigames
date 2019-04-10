@@ -51,21 +51,21 @@ AResident::Profession AResident::getProfession() const
 	return m_profession;
 }
 
-ABarn* AResident::findNearestBarnWithSpace(uint16 spaceRequired)
+AStorage* AResident::findNearestStorageWithSpace(uint16 spaceRequired)
 {
 	float smallestDistance = std::numeric_limits<float>::max();
-	ABarn* nearestBarn = nullptr;
-	for (TActorIterator<ABarn> iter(GetWorld()); iter; ++iter)
+	AStorage* nearestStorage = nullptr;
+	for (TActorIterator<AStorage> iter(GetWorld()); iter; ++iter)
 	{
 		float distance = iter->GetDistanceTo(this);
 		if (distance < smallestDistance && iter->getFreeSpace() >= spaceRequired)
 		{
 			smallestDistance = distance;
-			nearestBarn = *iter;
+			nearestStorage = *iter;
 		}
 	}
 
-	return nearestBarn;
+	return nearestStorage;
 }
 
 void AResident::moveToActor(AActor* actor)

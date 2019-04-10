@@ -42,16 +42,16 @@ void UTreeCutter::TickComponent(float DeltaTime, ELevelTick TickType, FActorComp
 		if (m_treeToBeCutted->cut(1, yield))
 		{
 			m_amountOfWoodOwned = yield;
-			m_status = Status::ReturningWoodToBarn;
+			m_status = Status::ReturningWoodToStorage;
 			m_treeToBeCutted = nullptr;
 		}
 	}
-	else if (m_status == Status::ReturningWoodToBarn && m_barnToReturn == nullptr)
+	else if (m_status == Status::ReturningWoodToStorage && m_storageToReturn == nullptr)
 	{
-		m_barnToReturn = m_owner->findNearestBarnWithSpace(m_amountOfWoodOwned);
-		if (m_barnToReturn != nullptr)
+		m_storageToReturn = m_owner->findNearestStorageWithSpace(m_amountOfWoodOwned);
+		if (m_storageToReturn != nullptr)
 		{
-			m_owner->moveToActor(m_barnToReturn);
+			m_owner->moveToActor(m_storageToReturn);
 		}
 	}
 }
@@ -68,7 +68,7 @@ void UTreeCutter::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
 		m_owner->stopMovement();
 		startCutting();
 	}
-	else if (m_status == Status::ReturningWoodToBarn && OtherActor == m_barnToReturn)
+	else if (m_status == Status::ReturningWoodToStorage && OtherActor == m_storageToReturn)
 	{
 		m_owner->stopMovement();
 		returnWood();
@@ -85,7 +85,7 @@ void UTreeCutter::setEnabled(bool status)
 			m_owner->stopMovement();
 		}
 		m_status = Status::WalkingToCut;
-		m_barnToReturn = nullptr;
+		m_storageToReturn = nullptr;
 		if (m_treeToBeCutted != nullptr)
 		{
 			m_treeToBeCutted->setTargetLock(false);
@@ -102,8 +102,8 @@ void UTreeCutter::startCutting()
 
 void UTreeCutter::returnWood()
 {
-	m_barnToReturn->addWood(m_amountOfWoodOwned);
+	m_storageToReturn->addWood(m_amountOfWoodOwned);
 	m_amountOfWoodOwned = 0;
-	m_barnToReturn = nullptr;
+	m_storageToReturn = nullptr;
 	m_status = Status::WalkingToCut;
 }

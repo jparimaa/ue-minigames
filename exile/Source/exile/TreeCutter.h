@@ -4,7 +4,7 @@
 #include "Components/ActorComponent.h"
 #include "Classes/Components/SphereComponent.h"
 #include "Tree.h"
-#include "Barn.h"
+#include "Storage.h"
 #include "TreeCutter.generated.h"
 
 class AResident;
@@ -30,7 +30,7 @@ private:
 	{
 		WalkingToCut,
 		Cutting,
-		ReturningWoodToBarn
+		ReturningWoodToStorage
 	};
 
 	void startCutting();
@@ -41,7 +41,7 @@ private:
 	Status m_status = Status::WalkingToCut;
 
 	UPROPERTY(VisibleAnywhere)
-		ABarn* m_barnToReturn = nullptr;
+		AStorage* m_storageToReturn = nullptr;
 
 	UPROPERTY(VisibleAnywhere)
 		ATree* m_treeToBeCutted = nullptr;

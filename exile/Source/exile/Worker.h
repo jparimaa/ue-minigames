@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Barn.h"
+#include "Storage.h"
 #include "Building.h"
 
 #include "CoreMinimal.h"
@@ -29,14 +29,14 @@ protected:
 private:
 	enum class Status
 	{
-		GettingWoodFromBarn,
+		GettingWoodFromStorage,
 		CarryingWoodToBuilding,
 		WaitingForWood,
 		WaitingForBuilding
 	};
 
 	ABuilding* getBuildingToCarryWood();
-	ABarn* getBarnWithWood();
+	AStorage* getStorageWithWood();
 
 	UPROPERTY(VisibleAnywhere)
 		bool m_enabled = false;
@@ -46,7 +46,7 @@ private:
 	Status m_status = Status::WaitingForBuilding;
 
 	UPROPERTY(VisibleAnywhere)
-		ABarn* m_barnToGetWoodFrom = nullptr;
+		AStorage* m_storageToGetWoodFrom = nullptr;
 	UPROPERTY(VisibleAnywhere)
 		ABuilding* m_buildingToCarryWoodTo = nullptr;
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Barn.h"
+#include "Storage.h"
 #include "MyAIController.h"
 #include "Worker.h"
 #include "TreeCutter.h"
@@ -62,7 +62,7 @@ public:
 		return Cast<T>(nearestActor);
 	}
 
-	ABarn* findNearestBarnWithSpace(uint16 spaceRequired);
+	AStorage* findNearestStorageWithSpace(uint16 spaceRequired);
 	void moveToActor(AActor* actor);
 	void stopMovement();
 	FVector getMoveDestination();
