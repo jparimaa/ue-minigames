@@ -18,7 +18,8 @@ public:
 
 	enum class Type
 	{
-		House = 1
+		House = 1,
+		Storage = 2
 	};
 
 	enum class Status
@@ -32,7 +33,8 @@ public:
 
 	const TMap<Type, uint16> woodRequiredByType =
 	{
-		TPairInitializer<const Type&, const uint16&>(Type::House, 50)
+		TPairInitializer<const Type&, const uint16&>(Type::House, 50),
+		TPairInitializer<const Type&, const uint16&>(Type::Storage, 100)
 	};
 
 	static const uint16 c_woodPerConstructionPoint;

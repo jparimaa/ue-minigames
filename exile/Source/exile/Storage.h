@@ -17,6 +17,11 @@ public:
 	uint16 takeWood(uint16 maxAmount);
 	uint16 getFreeSpace();
 
+	virtual void setInGameMaterial();
+
+	UPROPERTY(EditAnywhere)
+		UMaterial* m_inGameMaterial;
+
 protected:
 	virtual void BeginPlay() override;
 

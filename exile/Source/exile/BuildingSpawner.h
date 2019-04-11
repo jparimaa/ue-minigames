@@ -24,6 +24,9 @@ public:
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<class AHouse> m_houseClass;
 
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<class AStorage> m_storageClass;
+
 protected:
 	virtual void BeginPlay() override;
 

@@ -1,4 +1,5 @@
 #include "Storage.h"
+#include "Classes/Components/SphereComponent.h"
 
 #include <algorithm>
 
@@ -11,6 +12,11 @@ void AStorage::BeginPlay()
 {
 	Super::BeginPlay();
 	m_gameMode = Cast<AMyGameMode>(GetWorld()->GetAuthGameMode());
+
+	USphereComponent* sphereComponent = Cast<USphereComponent>(GetDefaultSubobjectByName(TEXT("Sphere")));
+	check(sphereComponent != nullptr);
+	sphereComponent->OnComponentBeginOverlap.AddDynamic(this, &ABuilding::OnOverlapBegin);
+	sphereComponent->OnComponentEndOverlap.AddDynamic(this, &ABuilding::OnOverlapEnd);
 }
 
 void AStorage::addWood(uint16 amount)
@@ -39,3 +45,7 @@ uint16 AStorage::getFreeSpace()
 	return m_maxCapacity - m_woodAmount;
 }
 
+void AStorage::setInGameMaterial()
+{
+	setMaterial(m_inGameMaterial);
+}

@@ -1,5 +1,6 @@
 #include "BuildingSpawner.h"
 #include "House.h"
+#include "Storage.h"
 #include "MainCamera.h"
 #include "EngineUtils.h"
 #include "DrawDebugHelpers.h"
@@ -69,13 +70,21 @@ void ABuildingSpawner::Tick(float DeltaTime)
 void ABuildingSpawner::placeBuilding(int type)
 {
 	m_placing = true;
+	ABuilding::Type buildingType = static_cast<ABuilding::Type>(type);
 
 	FActorSpawnParameters spawnParameters;
 	FTransform transform(FVector(0.0f, 0.0f, 99999.0f));
-	m_currentBuilding = (ABuilding*)GetWorld()->SpawnActor(m_houseClass, &transform, spawnParameters);
+	if (buildingType == ABuilding::Type::Storage)
+	{
+		m_currentBuilding = (ABuilding*)GetWorld()->SpawnActor(m_storageClass, &transform, spawnParameters);
+	}
+	else if (buildingType == ABuilding::Type::House)
+	{
+		m_currentBuilding = (ABuilding*)GetWorld()->SpawnActor(m_houseClass, &transform, spawnParameters);
+	}
 	check(m_currentBuilding != nullptr);
 	m_currentBuilding->setStatus(ABuilding::Status::Placing);
-	m_currentBuilding->setType(ABuilding::Type::House);
+	m_currentBuilding->setType(buildingType);
 }
 
 void ABuildingSpawner::setupInputComponent(UInputComponent* myInputComponent)
