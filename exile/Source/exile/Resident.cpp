@@ -58,7 +58,7 @@ AStorage* AResident::findNearestStorageWithSpace(uint16 spaceRequired)
 	for (TActorIterator<AStorage> iter(GetWorld()); iter; ++iter)
 	{
 		float distance = iter->GetDistanceTo(this);
-		if (distance < smallestDistance && iter->getFreeSpace() >= spaceRequired)
+		if (distance < smallestDistance && iter->getFreeSpace() >= spaceRequired && iter->getStatus() == ABuilding::Status::InGame)
 		{
 			smallestDistance = distance;
 			nearestStorage = *iter;

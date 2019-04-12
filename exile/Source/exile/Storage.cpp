@@ -17,6 +17,13 @@ void AStorage::BeginPlay()
 	check(sphereComponent != nullptr);
 	sphereComponent->OnComponentBeginOverlap.AddDynamic(this, &ABuilding::OnOverlapBegin);
 	sphereComponent->OnComponentEndOverlap.AddDynamic(this, &ABuilding::OnOverlapEnd);
+
+	if (m_readyAtStart)
+	{
+		setStatus(ABuilding::Status::InGame);
+	}
+
+	m_infoText->SetActorLocation(m_infoText->GetActorLocation() + FVector(0.0f, 0.0f, 100.0f));
 }
 
 void AStorage::addWood(uint16 amount)

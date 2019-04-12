@@ -22,6 +22,9 @@ public:
 	UPROPERTY(EditAnywhere)
 		UMaterial* m_inGameMaterial;
 
+	UPROPERTY(EditAnywhere)
+		bool m_readyAtStart = false;
+
 protected:
 	virtual void BeginPlay() override;
 
