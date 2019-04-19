@@ -26,6 +26,11 @@ void UResourcesGUI::setNumBuilders(uint16 numBuilders)
 	m_numBuilders = FString::FromInt(numBuilders);
 }
 
+void UResourcesGUI::setNumGatherers(uint16 numBuilders)
+{
+	m_numGatherers = FString::FromInt(numBuilders);
+}
+
 void UResourcesGUI::setNumWorkers(uint16 numWorkers)
 {
 	m_numWorkers = FString::FromInt(numWorkers);

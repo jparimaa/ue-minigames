@@ -6,6 +6,7 @@
 #include "Worker.h"
 #include "TreeCutter.h"
 #include "Builder.h"
+#include "Gatherer.h"
 #include "InfoText.h"
 
 #include "GameFramework/Character.h"
@@ -26,14 +27,16 @@ public:
 	{
 		Worker,
 		TreeCutter,
-		Builder
+		Builder,
+		Gatherer
 	};
 
 	const TMap< Profession, FString> professionToString =
 	{
 		TPairInitializer<const Profession&, const FString&>(Profession::Worker, FString("Worker")),
 		TPairInitializer<const Profession&, const FString&>(Profession::TreeCutter, FString("Tree cutter")),
-		TPairInitializer<const Profession&, const FString&>(Profession::Builder, FString("Builder"))
+		TPairInitializer<const Profession&, const FString&>(Profession::Builder, FString("Builder")),
+		TPairInitializer<const Profession&, const FString&>(Profession::Gatherer, FString("Gatherer"))
 	};
 
 	AResident();
@@ -90,4 +93,5 @@ private:
 	UWorker* m_worker = nullptr;
 	UTreeCutter* m_treeCutter = nullptr;
 	UBuilder* m_builder = nullptr;
+	UGatherer* m_gatherer = nullptr;
 };

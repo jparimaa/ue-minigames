@@ -17,10 +17,13 @@ void AResident::BeginPlay()
 	check(m_treeCutter != nullptr);
 	m_builder = Cast<UBuilder>(GetComponentByClass(UBuilder::StaticClass()));
 	check(m_builder != nullptr);
+	m_gatherer = Cast<UGatherer>(GetComponentByClass(UGatherer::StaticClass()));
+	check(m_gatherer != nullptr);
 
 	m_worker->setEnabled(true);
 	m_treeCutter->setEnabled(false);
 	m_builder->setEnabled(false);
+	m_gatherer->setEnabled(false);
 
 	FActorSpawnParameters spawnParameters;
 	FTransform transform(FVector(0.0f, 0.0f, 0.0f));
@@ -40,9 +43,12 @@ void AResident::Tick(float DeltaTime)
 void AResident::setProfession(Profession profession)
 {
 	m_profession = profession;
+
 	m_worker->setEnabled(profession == Profession::Worker);
 	m_treeCutter->setEnabled(profession == Profession::TreeCutter);
 	m_builder->setEnabled(profession == Profession::Builder);
+	m_gatherer->setEnabled(profession == Profession::Gatherer);
+
 	m_infoText->setText(professionToString[profession]);
 }
 

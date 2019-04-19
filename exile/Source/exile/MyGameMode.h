@@ -32,6 +32,9 @@ public:
 		void addNumBuilders(int amount = 1);
 
 	UFUNCTION(BlueprintCallable)
+		void addNumGatherers(int amount = 1);
+
+	UFUNCTION(BlueprintCallable)
 		ABuildingSpawner* getBuildingSpawner();
 
 protected:
@@ -60,4 +63,5 @@ private:
 	int m_numTreeCutters = 0;
 	int m_numBuilders = 0;
 	int m_numWorkers = 0;
+	int m_numGatherers = 0;
 };

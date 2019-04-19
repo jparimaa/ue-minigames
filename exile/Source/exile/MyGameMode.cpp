@@ -97,6 +97,14 @@ void AMyGameMode::addNumBuilders(int amount)
 	updateResidentProfessions();
 }
 
+void AMyGameMode::addNumGatherers(int amount)
+{
+	updateToWorkers(amount, m_numGatherers);
+	checkNumResidentsAndProfessions();
+	m_resourcesGUI->setNumGatherers(m_numGatherers);
+	updateResidentProfessions();
+}
+
 ABuildingSpawner* AMyGameMode::getBuildingSpawner()
 {
 	return m_buildingSpawner;
@@ -141,7 +149,7 @@ int AMyGameMode::decreaseResidentsFromProfession(int amount, int& profession)
 
 void AMyGameMode::checkNumResidentsAndProfessions()
 {
-	check(m_numResidents == (m_numTreeCutters + m_numBuilders + m_numWorkers));
+	check(m_numResidents == (m_numTreeCutters + m_numBuilders + m_numWorkers + m_numGatherers));
 }
 
 void AMyGameMode::updateResidentProfessions()
@@ -152,6 +160,7 @@ void AMyGameMode::updateResidentProfessions()
 	numProfessions.Add(AResident::Profession::Worker, m_numWorkers);
 	numProfessions.Add(AResident::Profession::TreeCutter, m_numTreeCutters);
 	numProfessions.Add(AResident::Profession::Builder, m_numBuilders);
+	numProfessions.Add(AResident::Profession::Gatherer, m_numGatherers);
 
 	for (TActorIterator<AResident> iter(GetWorld()); iter; ++iter)
 	{

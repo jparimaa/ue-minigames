@@ -19,6 +19,7 @@ public:
 	void setNumTreeCutters(uint16 numTreeCutters);
 	void setNumBuilders(uint16 numBuilders);
 	void setNumWorkers(uint16 numWorkers);
+	void setNumGatherers(uint16 numGatherers);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		FString m_amountWood = "0";
@@ -31,6 +32,8 @@ public:
 		FString m_numBuilders = "0";
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		FString m_numWorkers = "0";
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		FString m_numGatherers = "0";
 
 private:
 	UPROPERTY(VisibleAnywhere)
