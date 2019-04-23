@@ -11,10 +11,15 @@ class EXILE_API AStorage : public ABuilding
 	GENERATED_BODY()
 
 public:
+	enum class Resource
+	{
+		Wood, Food
+	};
+
 	AStorage();
-	void addWood(uint16 amount);
-	uint16 getWoodAmount();
-	uint16 takeWood(uint16 maxAmount);
+	void addResource(Resource resource, uint16 amount);
+	uint16 getResourceAmount(Resource resource);
+	uint16 takeResource(Resource resource, uint16 maxAmount);
 	uint16 getFreeSpace();
 
 	virtual void setInGameMaterial();
@@ -34,6 +39,9 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 		uint16 m_woodAmount = 0;
+
+	UPROPERTY(VisibleAnywhere)
+		uint16 m_foodAmount = 0;
 
 	AMyGameMode* m_gameMode = nullptr;
 };

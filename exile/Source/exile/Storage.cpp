@@ -26,30 +26,32 @@ void AStorage::BeginPlay()
 	m_infoText->SetActorLocation(m_infoText->GetActorLocation() + FVector(0.0f, 0.0f, 100.0f));
 }
 
-void AStorage::addWood(uint16 amount)
+void AStorage::addResource(AStorage::Resource resource, uint16 amount)
 {
 	check(m_gameMode != nullptr);
 	AStorage::StaticClass();
-	m_woodAmount += amount;
+	uint16& resourceAmount = resource == Resource::Wood ? m_woodAmount : m_foodAmount;
+	resourceAmount += amount;
 	m_gameMode->updateResources();
 }
 
-uint16 AStorage::getWoodAmount()
+uint16 AStorage::getResourceAmount(AStorage::Resource resource)
 {
-	return m_woodAmount;
+	return resource == Resource::Wood ? m_woodAmount : m_foodAmount;;
 }
 
-uint16 AStorage::takeWood(uint16 maxAmount)
+uint16 AStorage::takeResource(AStorage::Resource resource, uint16 maxAmount)
 {
-	uint16 takeAmount = std::min(maxAmount, m_woodAmount);
-	m_woodAmount -= takeAmount;
+	uint16& resourceAmount = resource == Resource::Wood ? m_woodAmount : m_foodAmount;
+	uint16 takeAmount = std::min(maxAmount, resourceAmount);
+	resourceAmount -= takeAmount;
 	m_gameMode->updateResources();
 	return takeAmount;
 }
 
 uint16 AStorage::getFreeSpace()
 {
-	return m_maxCapacity - m_woodAmount;
+	return m_maxCapacity - m_woodAmount - m_foodAmount;
 }
 
 void AStorage::setInGameMaterial()

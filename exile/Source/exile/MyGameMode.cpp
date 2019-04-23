@@ -51,11 +51,14 @@ void AMyGameMode::setResourcesGUI(UResourcesGUI* resourcesGUI)
 void AMyGameMode::updateResources()
 {
 	uint16 totalWoodAmount = 0;
+	uint16 totalFoodAmount = 0;
 	for (TActorIterator<AStorage> iter(GetWorld()); iter; ++iter)
 	{
-		totalWoodAmount += iter->getWoodAmount();
+		totalWoodAmount += iter->getResourceAmount(AStorage::Resource::Wood);
+		totalWoodAmount += iter->getResourceAmount(AStorage::Resource::Food);
 	}
 	m_resourcesGUI->setAmountWood(totalWoodAmount);
+	m_resourcesGUI->setAmountFood(totalFoodAmount);
 }
 
 void AMyGameMode::increaseNumResidents(int amount)

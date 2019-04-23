@@ -11,6 +11,11 @@ void UResourcesGUI::setAmountWood(uint16 amountWood)
 	m_amountWood = FString::FromInt(amountWood);
 }
 
+void UResourcesGUI::setAmountFood(uint16 amountFood)
+{
+	m_amountFood = FString::FromInt(amountFood);
+}
+
 void UResourcesGUI::setNumResidents(uint16 numResidents)
 {
 	m_numResidents = FString::FromInt(numResidents);

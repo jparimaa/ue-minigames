@@ -94,7 +94,7 @@ ABuilding* UWorker::getBuildingToCarryWood()
 
 AStorage* UWorker::getStorageWithWood()
 {
-	return m_owner->findNearestActor<AStorage>([](AStorage* storage) { return storage->getWoodAmount() > 0; });
+	return m_owner->findNearestActor<AStorage>([](AStorage* storage) { return storage->getResourceAmount(AStorage::Resource::Wood) > 0; });
 }
 
 void UWorker::setEnabled(bool status)
@@ -117,7 +117,7 @@ void UWorker::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
 
 		if (newBuilding != nullptr)
 		{
-			m_amountWoodCarrying = m_storageToGetWoodFrom->takeWood(c_maxAmountWoodCarrying - m_amountWoodCarrying);
+			m_amountWoodCarrying = m_storageToGetWoodFrom->takeResource(AStorage::Resource::Wood, c_maxAmountWoodCarrying - m_amountWoodCarrying);
 			m_status = Status::CarryingWoodToBuilding;
 			m_buildingToCarryWoodTo = newBuilding;
 			m_owner->moveToActor(m_buildingToCarryWoodTo);

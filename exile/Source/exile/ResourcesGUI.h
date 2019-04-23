@@ -15,6 +15,8 @@ public:
 		void initGameMode();
 
 	void setAmountWood(uint16 amountWood);
+	void setAmountFood(uint16 amountFood);
+
 	void setNumResidents(uint16 numResidents);
 	void setNumTreeCutters(uint16 numTreeCutters);
 	void setNumBuilders(uint16 numBuilders);
@@ -23,6 +25,8 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		FString m_amountWood = "0";
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		FString m_amountFood = "0";
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		FString m_numResidents = "0";

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Storage.h"
+#include "Gatherable.h"
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
@@ -28,9 +29,7 @@ protected:
 private:
 	enum class Status
 	{
-		WaitingForGatherable,
 		WalkingToGatherable,
-		Gathering,
 		ReturningGatherable
 	};
 
@@ -39,8 +38,14 @@ private:
 
 	AResident* m_owner = nullptr;
 
-	Status m_status = Status::WaitingForGatherable;
+	Status m_status = Status::WalkingToGatherable;
 
 	UPROPERTY(VisibleAnywhere)
-		AActor* m_resourceToGather = nullptr;
+		AGatherable* m_resourceToGather = nullptr;
+
+	UPROPERTY(VisibleAnywhere)
+		AStorage* m_storageToReturn = nullptr;
+
+	UPROPERTY(VisibleAnywhere)
+		uint16 m_amountOfFoodOwned = 0;
 };

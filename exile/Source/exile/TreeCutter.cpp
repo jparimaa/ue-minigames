@@ -102,7 +102,7 @@ void UTreeCutter::startCutting()
 
 void UTreeCutter::returnWood()
 {
-	m_storageToReturn->addWood(m_amountOfWoodOwned);
+	m_storageToReturn->addResource(AStorage::Resource::Wood, m_amountOfWoodOwned);
 	m_amountOfWoodOwned = 0;
 	m_storageToReturn = nullptr;
 	m_status = Status::WalkingToCut;
