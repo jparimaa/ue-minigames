@@ -27,7 +27,23 @@ void UGatherer::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 		return;
 	}
 
-	UE_LOG(LogTemp, Log, TEXT("##### UGatherer::TickComponent"));
+	//UE_LOG(LogTemp, Log, TEXT("##### UGatherer::TickComponent"));
+
+	if (m_status == Status::WaitingForGatherable)
+	{
+	}
+
+	if (m_status == Status::WalkingToGatherable)
+	{
+	}
+
+	if (m_status == Status::Gathering)
+	{
+	}
+
+	if (m_status == Status::ReturningGatherable)
+	{
+	}
 }
 
 void UGatherer::setEnabled(bool status)

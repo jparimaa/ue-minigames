@@ -40,4 +40,7 @@ private:
 	AResident* m_owner = nullptr;
 
 	Status m_status = Status::WaitingForGatherable;
+
+	UPROPERTY(VisibleAnywhere)
+		AActor* m_resourceToGather = nullptr;
 };
