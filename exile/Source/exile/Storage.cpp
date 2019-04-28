@@ -54,7 +54,7 @@ uint16 AStorage::getFreeSpace()
 	return m_maxCapacity - m_woodAmount - m_foodAmount;
 }
 
-void AStorage::setInGameMaterial()
+void AStorage::onBuildingReady()
 {
 	setMaterial(m_inGameMaterial);
 }

@@ -14,7 +14,15 @@ void AHouse::BeginPlay()
 	sphereComponent->OnComponentEndOverlap.AddDynamic(this, &ABuilding::OnOverlapEnd);
 }
 
-void AHouse::setInGameMaterial()
+void AHouse::onBuildingReady()
 {
 	setMaterial(m_inGameMaterial);
+
+	FVector location = GetActorLocation();
+	location.X += 200.0f;
+	FTransform transform(location);
+	FActorSpawnParameters spawnParameters;
+	spawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
+	GetWorld()->SpawnActor(m_residentClass, &transform, spawnParameters);
+	Cast<AMyGameMode>(GetWorld()->GetAuthGameMode())->increaseNumResidents();
 }

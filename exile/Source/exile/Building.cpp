@@ -51,7 +51,7 @@ void ABuilding::setStatus(Status status)
 	else if (status == Status::InGame)
 	{
 		m_infoText->setText(FString(""));
-		setInGameMaterial();
+		onBuildingReady();
 	}
 }
 
@@ -142,7 +142,7 @@ void ABuilding::OnOverlapEnd(class UPrimitiveComponent* OverlappedComp,
 	m_allowPlacing = true;
 }
 
-void ABuilding::setInGameMaterial()
+void ABuilding::onBuildingReady()
 {
 	check(false);
 }

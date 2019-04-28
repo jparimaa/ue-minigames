@@ -80,7 +80,7 @@ public:
 		TSubclassOf<class AInfoText> m_infoTextClass;
 
 	void setMaterial(UMaterialInterface* material);
-	virtual void setInGameMaterial();
+	virtual void onBuildingReady();
 
 protected:
 	virtual void BeginPlay() override;

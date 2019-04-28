@@ -22,7 +22,7 @@ public:
 	uint16 takeResource(Resource resource, uint16 maxAmount);
 	uint16 getFreeSpace();
 
-	virtual void setInGameMaterial();
+	virtual void onBuildingReady();
 
 	UPROPERTY(EditAnywhere)
 		UMaterial* m_inGameMaterial;

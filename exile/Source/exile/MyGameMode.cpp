@@ -55,7 +55,7 @@ void AMyGameMode::updateResources()
 	for (TActorIterator<AStorage> iter(GetWorld()); iter; ++iter)
 	{
 		totalWoodAmount += iter->getResourceAmount(AStorage::Resource::Wood);
-		totalWoodAmount += iter->getResourceAmount(AStorage::Resource::Food);
+		totalFoodAmount += iter->getResourceAmount(AStorage::Resource::Food);
 	}
 	m_resourcesGUI->setAmountWood(totalWoodAmount);
 	m_resourcesGUI->setAmountFood(totalFoodAmount);

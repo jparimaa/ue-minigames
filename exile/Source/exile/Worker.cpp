@@ -100,6 +100,13 @@ AStorage* UWorker::getStorageWithWood()
 void UWorker::setEnabled(bool status)
 {
 	m_enabled = status;
+	if (!m_enabled)
+	{
+		m_status = Status::WaitingForBuilding;
+		m_storageToGetWoodFrom = nullptr;
+		m_buildingToCarryWoodTo = nullptr;
+		m_amountWoodCarrying = 0;
+	}
 }
 
 void UWorker::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp,
