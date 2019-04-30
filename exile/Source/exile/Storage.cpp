@@ -24,12 +24,12 @@ void AStorage::BeginPlay()
 	}
 
 	m_infoText->SetActorLocation(m_infoText->GetActorLocation() + FVector(0.0f, 0.0f, 100.0f));
+	m_foodAmount = m_initialFoodAmount;
 }
 
 void AStorage::addResource(AStorage::Resource resource, uint16 amount)
 {
 	check(m_gameMode != nullptr);
-	AStorage::StaticClass();
 	uint16& resourceAmount = resource == Resource::Wood ? m_woodAmount : m_foodAmount;
 	resourceAmount += amount;
 	m_gameMode->updateResources();

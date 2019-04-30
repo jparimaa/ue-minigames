@@ -1,5 +1,11 @@
 #include "Resident.h"
 
+namespace
+{
+const float c_foodConsumptionTime = 10.0f;
+const uint16 c_withoutFoodKillCount = 2;
+}
+
 AResident::AResident()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -37,7 +43,27 @@ void AResident::BeginPlay()
 void AResident::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	m_destination = getMoveDestination();
+	m_foodConsumptionTimer += DeltaTime;
+	if (m_foodConsumptionTimer > c_foodConsumptionTime)
+	{
+		AStorage* storage = findNearestStorageWithResource(AStorage::Resource::Food, 1);
+		uint16 foodReceived = storage == nullptr ? 0 : storage->takeResource(AStorage::Resource::Food, 1);
+		if (foodReceived == 0)
+		{
+			++m_timesWithoutFood;
+			if (m_timesWithoutFood == c_withoutFoodKillCount)
+			{
+				Cast<AMyGameMode>(GetWorld()->GetAuthGameMode())->decreaseNumResidents();
+				m_infoText->Destroy();
+				Destroy();
+			}
+		}
+		else
+		{
+			m_timesWithoutFood = 0;
+		}
+		m_foodConsumptionTimer = 0.0f;
+	}
 }
 
 void AResident::setProfession(Profession profession)
@@ -65,6 +91,23 @@ AStorage* AResident::findNearestStorageWithSpace(uint16 spaceRequired)
 	{
 		float distance = iter->GetDistanceTo(this);
 		if (distance < smallestDistance && iter->getFreeSpace() >= spaceRequired && iter->getStatus() == ABuilding::Status::InGame)
+		{
+			smallestDistance = distance;
+			nearestStorage = *iter;
+		}
+	}
+
+	return nearestStorage;
+}
+
+AStorage* AResident::findNearestStorageWithResource(AStorage::Resource resource, uint16 amount)
+{
+	float smallestDistance = std::numeric_limits<float>::max();
+	AStorage* nearestStorage = nullptr;
+	for (TActorIterator<AStorage> iter(GetWorld()); iter; ++iter)
+	{
+		float distance = iter->GetDistanceTo(this);
+		if (distance < smallestDistance && iter->getResourceAmount(resource) >= amount && iter->getStatus() == ABuilding::Status::InGame)
 		{
 			smallestDistance = distance;
 			nearestStorage = *iter;

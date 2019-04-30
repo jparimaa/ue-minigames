@@ -66,6 +66,7 @@ public:
 	}
 
 	AStorage* findNearestStorageWithSpace(uint16 spaceRequired);
+	AStorage* findNearestStorageWithResource(AStorage::Resource resource, uint16 amount);
 	void moveToActor(AActor* actor);
 	void stopMovement();
 	FVector getMoveDestination();
@@ -94,4 +95,7 @@ private:
 	UTreeCutter* m_treeCutter = nullptr;
 	UBuilder* m_builder = nullptr;
 	UGatherer* m_gatherer = nullptr;
+
+	float m_foodConsumptionTimer = 0.0f;
+	uint16 m_timesWithoutFood = 0;
 };

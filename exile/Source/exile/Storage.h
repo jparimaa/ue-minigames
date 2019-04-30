@@ -17,6 +17,7 @@ public:
 	};
 
 	AStorage();
+
 	void addResource(Resource resource, uint16 amount);
 	uint16 getResourceAmount(Resource resource);
 	uint16 takeResource(Resource resource, uint16 maxAmount);
@@ -29,6 +30,9 @@ public:
 
 	UPROPERTY(EditAnywhere)
 		bool m_readyAtStart = false;
+
+	UPROPERTY(EditAnywhere)
+		uint16 m_initialFoodAmount = 0;
 
 protected:
 	virtual void BeginPlay() override;

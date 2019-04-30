@@ -24,6 +24,8 @@ void AMyGameMode::BeginPlay()
 		m_buildingSpawner = *iter;
 	}
 	check(m_buildingSpawner != nullptr);
+
+	updateResources();
 }
 
 void AMyGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass)
