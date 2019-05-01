@@ -16,6 +16,11 @@ void AMainCamera::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	FRotator NewRotation = FRotator(0.0f, m_yawValue, 0.0f);
+	FQuat QuatRotation = FQuat(NewRotation);
+	AddActorLocalRotation(QuatRotation, false, 0, ETeleportType::None);
+	m_yawValue = 0.0f;
+
 	if (!m_movementInput.IsZero())
 	{
 		m_movementInput = m_movementInput.GetSafeNormal() * 1000.0f;
@@ -34,11 +39,15 @@ void AMainCamera::Tick(float DeltaTime)
 void AMainCamera::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	// Axis
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMainCamera::moveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMainCamera::moveRight);
+	PlayerInputComponent->BindAxis("RotateRight", this, &AMainCamera::rotateRight);
+
+	// Action
 	PlayerInputComponent->BindAction("MoveUp", IE_Released, this, &AMainCamera::moveUp);
 	PlayerInputComponent->BindAction("MoveDown", IE_Released, this, &AMainCamera::moveDown);
-
 }
 
 void AMainCamera::moveForward(float Value)
@@ -59,4 +68,9 @@ void AMainCamera::moveUp()
 void AMainCamera::moveDown()
 {
 	m_movementInput.Z = -1.0;
+}
+
+void AMainCamera::rotateRight(float Value)
+{
+	m_yawValue += Value;
 }

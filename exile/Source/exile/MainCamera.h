@@ -23,6 +23,9 @@ public:
 		void moveRight(float Value);
 
 	UFUNCTION()
+		void rotateRight(float Value);
+
+	UFUNCTION()
 		void moveUp();
 
 	UFUNCTION()
@@ -35,4 +38,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	FVector m_movementInput;
+
+	UPROPERTY(VisibleAnywhere)
+		float m_yawValue = 0.0f;
 };
