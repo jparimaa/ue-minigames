@@ -10,7 +10,7 @@
 void AMyGameMode::BeginPlay()
 {
 	Super::BeginPlay();
-	ChangeMenuWidget(StartingWidgetClass);
+	changeMenuWidget(m_startingWidgetClass);
 
 	int numResidents = 0;
 	for (TActorIterator<AResident> iter(GetWorld()); iter; ++iter)
@@ -28,19 +28,19 @@ void AMyGameMode::BeginPlay()
 	updateResources();
 }
 
-void AMyGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass)
+void AMyGameMode::changeMenuWidget(TSubclassOf<UUserWidget> newWidgetClass)
 {
-	if (CurrentWidget != nullptr)
+	if (m_currentWidget != nullptr)
 	{
-		CurrentWidget->RemoveFromViewport();
-		CurrentWidget = nullptr;
+		m_currentWidget->RemoveFromViewport();
+		m_currentWidget = nullptr;
 	}
-	if (NewWidgetClass != nullptr)
+	if (newWidgetClass != nullptr)
 	{
-		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), NewWidgetClass);
-		if (CurrentWidget != nullptr)
+		m_currentWidget = CreateWidget<UUserWidget>(GetWorld(), newWidgetClass);
+		if (m_currentWidget != nullptr)
 		{
-			CurrentWidget->AddToViewport();
+			m_currentWidget->AddToViewport();
 		}
 	}
 }
@@ -84,6 +84,11 @@ void AMyGameMode::decreaseNumResidents(int amount)
 	m_resourcesGUI->setNumBuilders(m_numBuilders);
 	m_resourcesGUI->setNumWorkers(m_numWorkers);
 	updateResidentProfessions();
+
+	if (m_numResidents == 0)
+	{
+		changeMenuWidget(m_restartWidgetClass);
+	}
 }
 
 void AMyGameMode::addNumTreeCutters(int amount)

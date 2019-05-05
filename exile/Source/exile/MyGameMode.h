@@ -15,8 +15,8 @@ class EXILE_API AMyGameMode : public AGameModeBase
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintCallable, Category = "UMG Game")
-		void ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass);
+	UFUNCTION(BlueprintCallable)
+		void changeMenuWidget(TSubclassOf<UUserWidget> newWidgetClass);
 
 	void setResourcesGUI(UResourcesGUI* resourcesGUI);
 
@@ -40,8 +40,11 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UMG Game")
-		TSubclassOf<UUserWidget> StartingWidgetClass;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		TSubclassOf<UUserWidget> m_startingWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		TSubclassOf<UUserWidget> m_restartWidgetClass;
 
 private:
 	void addNumWorkers(int amount = 1);
@@ -54,7 +57,7 @@ private:
 	void updateResidentProfessions();
 
 	UPROPERTY()
-		UUserWidget* CurrentWidget;
+		UUserWidget* m_currentWidget;
 
 	UResourcesGUI* m_resourcesGUI = nullptr;
 	ABuildingSpawner* m_buildingSpawner = nullptr;
