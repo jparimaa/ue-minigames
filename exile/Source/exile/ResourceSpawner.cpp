@@ -36,6 +36,7 @@ void AResourceSpawner::Tick(float DeltaTime)
 			spawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 			GetWorld()->SpawnActor(*spawnSettings.actorClass, &transform, spawnParameters);
 			spawnSettings.counter = 0.0f;
+			UE_LOG(LogTemp, Log, TEXT("Spawned %s"), *spawnSettings.actorClass->Get()->GetName());
 		}
 	}
 }

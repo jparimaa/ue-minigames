@@ -29,6 +29,10 @@ void AMainCamera::Tick(float DeltaTime)
 		newLocation += GetActorForwardVector() * m_movementInput.Y * DeltaTime;
 		newLocation += GetActorUpVector() * m_movementInput.Z * DeltaTime * m_mouseSensitivity;
 
+		if (newLocation.Z < 200.0f)
+		{
+			newLocation.Z = 200.0f;
+		}
 		//UE_LOG(LogTemp, Log, TEXT("##### %s"), *m_movementInput.ToString());
 
 		SetActorLocation(newLocation);
