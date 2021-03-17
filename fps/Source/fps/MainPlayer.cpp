@@ -33,8 +33,8 @@ void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	/*
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMainPlayer::OnFire);
 	*/
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMainPlayer::OnFire);
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMainPlayer::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMainPlayer::MoveRight);
 }
@@ -44,6 +44,20 @@ void AMainPlayer::OnFire()
 	if (FireSound != nullptr)
 	{
 		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
+	}
+
+	if (BulletClass != nullptr)
+	{
+		UWorld* const World = GetWorld();
+		if (World != nullptr)
+		{
+			const FTransform Transform(GetActorLocation() + GetActorForwardVector() * 2.0f + GetActorUpVector());
+
+			FActorSpawnParameters ActorSpawnParams;
+			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+
+			World->SpawnActor<ABullet>(BulletClass, Transform, ActorSpawnParams);
+		}
 	}
 }
 

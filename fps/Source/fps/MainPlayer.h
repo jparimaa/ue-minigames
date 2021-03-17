@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include "Bullet.h"
+
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "MainPlayer.generated.h"
@@ -24,14 +26,17 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		USoundBase* FireSound;
 
+	UPROPERTY(EditDefaultsOnly, Category = Gameplay)
+		TSubclassOf<class ABullet> BulletClass;
+
 protected:
 	virtual void BeginPlay() override;
 
 	void OnFire();
 
 	UFUNCTION()
-	void MoveForward(float Val);
+		void MoveForward(float Val);
 
 	UFUNCTION()
-	void MoveRight(float Val);
+		void MoveRight(float Val);
 };
