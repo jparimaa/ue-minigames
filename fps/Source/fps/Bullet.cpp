@@ -39,8 +39,11 @@ void ABullet::Tick(float DeltaTime)
 
 void ABullet::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	FName name = OtherActor->GetFName();
-	GEngine->AddOnScreenDebugMessage(-10, 1.f, FColor::Yellow, FString::Printf(TEXT("OnHit")));
+	GEngine->AddOnScreenDebugMessage(1, 2.f, FColor::Yellow, FString::Printf(TEXT("OnHit: ")) + OtherActor->GetClass()->GetName());
+
+	if (OtherActor->GetClass()->GetName() == FString("EnemyBP_C")) {
+		OtherActor->Destroy();
+	}
 
 	Destroy();
 
