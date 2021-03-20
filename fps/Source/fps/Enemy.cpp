@@ -6,13 +6,13 @@
 AEnemy::AEnemy()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	AIController = Cast<AAIController>(GetController());
 
 }
 
 void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
+	AIController = Cast<AAIController>(GetController());
 	for (TActorIterator<AMainPlayer> iter(GetWorld()); iter; ++iter)
 	{
 		MainPlayer = *iter;
