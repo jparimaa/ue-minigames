@@ -3,40 +3,43 @@
 
 #include "MainPlayer.h"
 #include "Kismet/GameplayStatics.h"
+#include "Camera/CameraComponent.h"
+#include "Components/CapsuleComponent.h"
 
-// Sets default values
 AMainPlayer::AMainPlayer()
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
+	CameraComponent->SetupAttachment(GetCapsuleComponent());
+	CameraComponent->SetRelativeLocation(FVector(50.0f, 0.0f, 80.0f));
+	CameraComponent->bUsePawnControlRotation = true;
 }
 
-// Called when the game starts or when spawned
 void AMainPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
 }
 
-// Called every frame
 void AMainPlayer::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
 }
 
-// Called to bind functionality to input
 void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-	/*
+
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-	*/
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMainPlayer::OnFire);
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMainPlayer::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMainPlayer::MoveRight);
+	PlayerInputComponent->BindAxis("Horizontal", this, &APawn::AddControllerYawInput);
+	PlayerInputComponent->BindAxis("Vertical", this, &APawn::AddControllerPitchInput);
 }
 
 void AMainPlayer::OnFire()
@@ -51,7 +54,8 @@ void AMainPlayer::OnFire()
 		UWorld* const World = GetWorld();
 		if (World != nullptr)
 		{
-			const FTransform Transform(GetActorLocation() + GetActorForwardVector() * 2.0f + GetActorUpVector());
+			const FVector Position = CameraComponent->GetComponentLocation() + CameraComponent->GetForwardVector() * 25.0f - CameraComponent->GetUpVector() * 15.0f;
+			const FTransform Transform(GetControlRotation(), Position, FVector(1.0f, 1.0f, 1.0f));
 
 			FActorSpawnParameters ActorSpawnParams;
 			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
@@ -77,4 +81,14 @@ void AMainPlayer::MoveRight(float Value)
 		GEngine->AddOnScreenDebugMessage(-10, 1.f, FColor::Yellow, FString::Printf(TEXT("MoveRight %f"), Value));
 		AddMovementInput(GetActorRightVector(), Value);
 	}
+}
+
+void AMainPlayer::StartJump()
+{
+	bPressedJump = true;
+}
+
+void AMainPlayer::StopJump()
+{
+	bPressedJump = false;
 }

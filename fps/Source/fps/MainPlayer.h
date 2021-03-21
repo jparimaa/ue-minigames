@@ -39,4 +39,13 @@ protected:
 
 	UFUNCTION()
 		void MoveRight(float Val);
+
+	UFUNCTION()
+		void StartJump();
+
+	UFUNCTION()
+		void StopJump();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+		UCameraComponent* CameraComponent;
 };
