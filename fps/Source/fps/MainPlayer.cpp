@@ -54,7 +54,7 @@ void AMainPlayer::OnFire()
 		UWorld* const World = GetWorld();
 		if (World != nullptr)
 		{
-			const FVector Position = CameraComponent->GetComponentLocation() + CameraComponent->GetForwardVector() * 25.0f - CameraComponent->GetUpVector() * 15.0f;
+			const FVector Position = CameraComponent->GetComponentLocation() + CameraComponent->GetForwardVector() * 25.0f - CameraComponent->GetUpVector() * 5.0f;
 			const FTransform Transform(GetControlRotation(), Position, FVector(1.0f, 1.0f, 1.0f));
 
 			FActorSpawnParameters ActorSpawnParams;
