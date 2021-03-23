@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <chrono>
+
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Enemy.generated.h"
@@ -18,10 +20,14 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void Kill();
+
 protected:
 	virtual void BeginPlay() override;
 
 private:
 	AAIController* AIController = nullptr;
 	AActor* MainPlayer = nullptr;
+	bool Killed = false;
+	std::chrono::time_point<std::chrono::system_clock> KillTime;
 };

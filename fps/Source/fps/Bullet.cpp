@@ -1,4 +1,5 @@
 #include "Bullet.h"
+#include "Enemy.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Components/SphereComponent.h"
 
@@ -42,7 +43,8 @@ void ABullet::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitive
 	GEngine->AddOnScreenDebugMessage(1, 2.f, FColor::Yellow, FString::Printf(TEXT("OnHit: ")) + OtherActor->GetClass()->GetName());
 
 	if (OtherActor->GetClass()->GetName() == FString("EnemyBP_C")) {
-		OtherActor->Destroy();
+		AEnemy* Enemy = Cast<AEnemy>(OtherActor);
+		Enemy->Kill();
 	}
 
 	Destroy();
