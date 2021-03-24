@@ -26,8 +26,14 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-	AAIController* AIController = nullptr;
-	AActor* MainPlayer = nullptr;
-	bool Killed = false;
+	UPROPERTY(VisibleAnywhere)
+		AAIController* AIController = nullptr;
+
+	UPROPERTY(VisibleAnywhere)
+		AActor* MainPlayer = nullptr;
+
+	UPROPERTY(VisibleAnywhere)
+		bool Killed = false;
+
 	std::chrono::time_point<std::chrono::system_clock> KillTime;
 };
