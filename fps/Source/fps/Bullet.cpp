@@ -42,7 +42,7 @@ void ABullet::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitive
 {
 	GEngine->AddOnScreenDebugMessage(1, 2.f, FColor::Yellow, FString::Printf(TEXT("OnHit: ")) + OtherActor->GetClass()->GetName());
 
-	if (OtherActor->GetClass()->GetName() == FString("EnemyBP_C")) {
+	if (OtherActor->GetClass()->GetName() == FString("Enemy_BP_C")) {
 		AEnemy* Enemy = Cast<AEnemy>(OtherActor);
 		Enemy->Kill();
 	}
