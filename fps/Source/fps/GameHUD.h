@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/HUD.h"
+#include "GameData.h"
 #include "Engine/Canvas.h"
 #include "GameHUD.generated.h"
 
@@ -14,6 +15,14 @@ public:
 	virtual void DrawHUD() override;
 
 protected:
+	virtual void BeginPlay() override;
+
 	UPROPERTY(EditDefaultsOnly)
 		UTexture2D* CrosshairTexture;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		UFont* HUDFont;
+
+private:
+	GameData* MyGameData = nullptr;
 };

@@ -1,4 +1,17 @@
 #include "GameHUD.h"
+#include "MyGameMode.h"
+#include "Kismet/GameplayStatics.h"
+
+namespace
+{
+	const float Scale = 4.0f;
+}
+
+void AGameHUD::BeginPlay()
+{
+	AMyGameMode* GameMode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	MyGameData = GameMode->GetGameData();
+}
 
 void AGameHUD::DrawHUD()
 {
@@ -12,5 +25,13 @@ void AGameHUD::DrawHUD()
 		FCanvasTileItem TileItem(CrossHairDrawPosition, CrosshairTexture->Resource, FLinearColor::White);
 		TileItem.BlendMode = SE_BLEND_Translucent;
 		Canvas->DrawItem(TileItem);
+	}
+
+	if (MyGameData && HUDFont)
+	{
+		const int KillCount = MyGameData->EnemyKillCount;
+		const FText KillCountText = FText::Format(NSLOCTEXT("Dummy", "Dummy", "Enemies killed: {0}"), KillCount);
+
+		Canvas->DrawText(GEngine->GetMediumFont(), KillCountText, 10.0f, 100.0f, Scale, Scale);
 	}
 }

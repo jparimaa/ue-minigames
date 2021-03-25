@@ -3,6 +3,9 @@
 #include "Components/CapsuleComponent.h"
 #include "AIController.h"
 #include "EngineUtils.h"
+#include "MyGameMode.h"
+#include "GameData.h"
+#include "Kismet/GameplayStatics.h"
 #include "GameFramework/CharacterMovementComponent.h"
 
 AEnemy::AEnemy()
@@ -54,4 +57,6 @@ void AEnemy::Kill()
 	}
 	Killed = true;
 	KillTime = std::chrono::system_clock::now();
+	AMyGameMode* GameMode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	GameMode->GetGameData()->EnemyKillCount += 1;
 }

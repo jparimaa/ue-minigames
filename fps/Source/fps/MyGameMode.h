@@ -6,6 +6,7 @@
 
 #include "CoreMinimal.h"
 #include "Enemy.h"
+#include "GameData.h"
 #include "GameFramework/GameModeBase.h"
 #include "MyGameMode.generated.h"
 
@@ -27,7 +28,9 @@ public:
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<class AEnemy> EnemyClass;
 
+	GameData* GetGameData() { return &MyGameData; }
+
 private:
 	std::chrono::time_point<std::chrono::system_clock> LastSpawnTime;
-
+	GameData MyGameData;
 };
