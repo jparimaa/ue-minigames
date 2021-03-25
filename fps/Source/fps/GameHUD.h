@@ -20,9 +20,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly)
 		UTexture2D* CrosshairTexture;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		UFont* HUDFont;
-
 private:
 	GameData* MyGameData = nullptr;
 };

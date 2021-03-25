@@ -27,7 +27,7 @@ void AGameHUD::DrawHUD()
 		Canvas->DrawItem(TileItem);
 	}
 
-	if (MyGameData && HUDFont)
+	if (MyGameData)
 	{
 		const int KillCount = MyGameData->EnemyKillCount;
 		const FText KillCountText = FText::Format(NSLOCTEXT("Dummy", "Dummy", "Enemies killed: {0}"), KillCount);
