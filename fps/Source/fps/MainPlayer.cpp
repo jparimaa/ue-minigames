@@ -42,6 +42,11 @@ void AMainPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	PlayerInputComponent->BindAxis("Vertical", this, &APawn::AddControllerPitchInput);
 }
 
+void AMainPlayer::DisableControls()
+{
+	DisableInput(Cast<APlayerController>(GetController()));
+}
+
 void AMainPlayer::OnFire()
 {
 	if (FireSound != nullptr)
@@ -69,7 +74,7 @@ void AMainPlayer::MoveForward(float Value)
 {
 	if (Value != 0.0f)
 	{
-		GEngine->AddOnScreenDebugMessage(-10, 1.f, FColor::Yellow, FString::Printf(TEXT("MoveForward %f"), Value));
+		//	GEngine->AddOnScreenDebugMessage(-10, 1.f, FColor::Yellow, FString::Printf(TEXT("MoveForward %f"), Value));
 		AddMovementInput(GetActorForwardVector(), Value);
 	}
 }
@@ -78,7 +83,6 @@ void AMainPlayer::MoveRight(float Value)
 {
 	if (Value != 0.0f)
 	{
-		GEngine->AddOnScreenDebugMessage(-10, 1.f, FColor::Yellow, FString::Printf(TEXT("MoveRight %f"), Value));
 		AddMovementInput(GetActorRightVector(), Value);
 	}
 }

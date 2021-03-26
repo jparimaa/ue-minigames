@@ -30,7 +30,10 @@ public:
 
 	GameData* GetGameData() { return &MyGameData; }
 
+	void GameOver();
+
 private:
 	std::chrono::time_point<std::chrono::system_clock> LastSpawnTime;
 	GameData MyGameData;
+	bool IsGameOver = false;
 };

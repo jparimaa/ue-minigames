@@ -22,12 +22,14 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	void DisableControls();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
 		USoundBase* FireSound;
 
 	UPROPERTY(EditDefaultsOnly, Category = Gameplay)
 		TSubclassOf<class ABullet> BulletClass;
+
 
 protected:
 	virtual void BeginPlay() override;

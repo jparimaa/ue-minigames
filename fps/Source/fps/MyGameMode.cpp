@@ -1,6 +1,9 @@
 #include "MyGameMode.h"
 #include "GameFramework/PlayerStart.h"
 #include "Kismet/GameplayStatics.h"
+#include "Enemy.h"
+#include "MainPlayer.h"
+#include "EngineUtils.h"
 
 AMyGameMode::AMyGameMode()
 {
@@ -20,6 +23,10 @@ void AMyGameMode::BeginPlay()
 
 void AMyGameMode::Tick(float DeltaTime)
 {
+	if (IsGameOver) {
+		return;
+	}
+
 	const auto Now = std::chrono::system_clock::now();
 	if ((Now - LastSpawnTime) > std::chrono::seconds(3))
 	{
@@ -33,5 +40,20 @@ void AMyGameMode::Tick(float DeltaTime)
 		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
 		GetWorld()->SpawnActor(EnemyClass.Get(), &Transform, SpawnParameters);
+	}
+}
+
+void AMyGameMode::GameOver()
+{
+	IsGameOver = true;
+	int i = 0;
+	for (TActorIterator<AEnemy> iter(GetWorld()); iter; ++iter)
+	{
+		iter->StopMovement(i);
+		++i;
+	}
+	for (TActorIterator<AMainPlayer> iter(GetWorld()); iter; ++iter)
+	{
+		iter->DisableControls();
 	}
 }

@@ -11,6 +11,11 @@
 AEnemy::AEnemy()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	SphereComp = CreateDefaultSubobject<USphereComponent>(TEXT("SphereComp"));
+	SphereComp->InitSphereRadius(100.0f);
+	SphereComp->SetupAttachment(RootComponent);
+	SphereComp->OnComponentBeginOverlap.AddDynamic(this, &AEnemy::OnOverlapBegin);
 }
 
 void AEnemy::BeginPlay()
@@ -27,7 +32,7 @@ void AEnemy::BeginPlay()
 void AEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (MainPlayer && AIController)
+	if (MainPlayer && AIController && !IsMovementStopped)
 	{
 		AIController->MoveToActor(MainPlayer);
 	}
@@ -44,7 +49,7 @@ void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AEnemy::Kill()
 {
-	AIController->StopMovement();
+	StopMovement();
 
 	UCharacterMovementComponent* MovementComp = FindComponentByClass<UCharacterMovementComponent>();
 	MovementComp->DisableMovement();
@@ -59,4 +64,18 @@ void AEnemy::Kill()
 	KillTime = std::chrono::system_clock::now();
 	AMyGameMode* GameMode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 	GameMode->GetGameData()->EnemyKillCount += 1;
+}
+
+void AEnemy::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if (OtherActor->GetClass()->GetName() == FString("MainPlayer_BP_C")) {
+		AMyGameMode* GameMode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+		GameMode->GameOver();
+	}
+}
+
+void AEnemy::StopMovement(int msgIndex)
+{
+	IsMovementStopped = true;
+	AIController->StopMovement();
 }
