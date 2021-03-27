@@ -49,6 +49,10 @@ void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AEnemy::Kill()
 {
+	if (Killed) {
+		return;
+	}
+
 	StopMovement();
 
 	UCharacterMovementComponent* MovementComp = FindComponentByClass<UCharacterMovementComponent>();
@@ -68,7 +72,7 @@ void AEnemy::Kill()
 
 void AEnemy::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	if (OtherActor->GetClass()->GetName() == FString("MainPlayer_BP_C")) {
+	if (OtherActor->GetClass()->GetName() == FString("MainPlayer_BP_C") && !Killed) {
 		AMyGameMode* GameMode = Cast<AMyGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 		GameMode->GameOver();
 	}
