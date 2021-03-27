@@ -19,6 +19,8 @@ void AMyGameMode::BeginPlay()
 		PrimaryActorTick.bStartWithTickEnabled = false;
 		PrimaryActorTick.bCanEverTick = false;
 	}
+
+	ChangeMenuWidget(nullptr);
 }
 
 void AMyGameMode::Tick(float DeltaTime)
@@ -55,5 +57,24 @@ void AMyGameMode::GameOver()
 	for (TActorIterator<AMainPlayer> iter(GetWorld()); iter; ++iter)
 	{
 		iter->DisableControls();
+	}
+
+	ChangeMenuWidget(RestartWidgetClass);
+}
+
+void AMyGameMode::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidget)
+{
+	if (CurrentWidget != nullptr)
+	{
+		CurrentWidget->RemoveFromViewport();
+		CurrentWidget = nullptr;
+	}
+	if (NewWidget != nullptr)
+	{
+		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), NewWidget);
+		if (CurrentWidget != nullptr)
+		{
+			CurrentWidget->AddToViewport();
+		}
 	}
 }

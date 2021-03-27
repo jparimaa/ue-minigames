@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include <chrono>
@@ -8,11 +6,9 @@
 #include "Enemy.h"
 #include "GameData.h"
 #include "GameFramework/GameModeBase.h"
+#include "Blueprint/UserWidget.h"
 #include "MyGameMode.generated.h"
 
-/**
- *
- */
 UCLASS()
 class FPS_API AMyGameMode : public AGameModeBase
 {
@@ -25,15 +21,22 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(EditAnywhere)
-		TSubclassOf<class AEnemy> EnemyClass;
-
 	GameData* GetGameData() { return &MyGameData; }
 
 	void GameOver();
 
 private:
+	void ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidget);
+
 	std::chrono::time_point<std::chrono::system_clock> LastSpawnTime;
 	GameData MyGameData;
 	bool IsGameOver = false;
+
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<class AEnemy> EnemyClass;
+
+	UPROPERTY(EditAnywhere)
+		TSubclassOf<UUserWidget> RestartWidgetClass;
+
+	UUserWidget* CurrentWidget;
 };
