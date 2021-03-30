@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "AIController.h"
 #include "Enemy.generated.h"
 
 UCLASS()
@@ -11,10 +12,18 @@ class TD_API AEnemy : public ACharacter
 
 public:
 	AEnemy();
+	virtual void Tick(float DeltaTime) override;
 
 protected:
 	virtual void BeginPlay() override;
 
-public:
-	virtual void Tick(float DeltaTime) override;
+private:
+	UPROPERTY(VisibleAnywhere)
+		AAIController* AIController = nullptr;
+
+	UPROPERTY(VisibleAnywhere)
+		TArray<AActor*> WaypointActors;
+
+	UPROPERTY(VisibleAnywhere)
+		AActor* CurrentWaypoint = nullptr;
 };
