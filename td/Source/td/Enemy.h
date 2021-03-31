@@ -1,5 +1,7 @@
 #pragma once
 
+#include "EnemyAIController.h"
+
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "AIController.h"
@@ -16,14 +18,4 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-
-private:
-	UPROPERTY(VisibleAnywhere)
-		AAIController* AIController = nullptr;
-
-	UPROPERTY(VisibleAnywhere)
-		TArray<AActor*> WaypointActors;
-
-	UPROPERTY(VisibleAnywhere)
-		AActor* CurrentWaypoint = nullptr;
 };
