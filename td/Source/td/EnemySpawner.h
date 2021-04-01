@@ -23,5 +23,11 @@ private:
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<class AEnemy> EnemyClass;
 
+	UPROPERTY(EditAnywhere)
+		int MaxSpawnCount = 10;
+
+	UPROPERTY(VisibleAnywhere)
+		int SpawnCount = 0;
+
 	std::chrono::time_point<std::chrono::system_clock> LastSpawnTime;
 };

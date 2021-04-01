@@ -17,6 +17,11 @@ void AEnemySpawner::BeginPlay()
 void AEnemySpawner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	if (SpawnCount >= MaxSpawnCount)
+	{
+		return;
+	}
+
 	const auto Now = std::chrono::system_clock::now();
 	if (Now - LastSpawnTime > std::chrono::seconds(3)) {
 		LastSpawnTime = Now;
@@ -31,6 +36,7 @@ void AEnemySpawner::Tick(float DeltaTime)
 		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 
 		GetWorld()->SpawnActor(EnemyClass.Get(), &Transform, SpawnParameters);
+		++SpawnCount;
 	}
 }
 
