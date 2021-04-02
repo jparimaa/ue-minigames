@@ -1,14 +1,12 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
-
 #pragma once
 
+#include "Blueprint/UserWidget.h"
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "tdGameModeBase.generated.h"
 
-/**
- *
- */
+class UMainGUI;
+
 UCLASS()
 class TD_API AtdGameModeBase : public AGameModeBase
 {
@@ -21,4 +19,15 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		TSubclassOf<UUserWidget> MainGUIClass;
+
+private:
+	void ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass);
+
+	UMainGUI* MainGUI = nullptr;
+
+	UPROPERTY()
+		UUserWidget* CurrentWidget = nullptr;
 };
