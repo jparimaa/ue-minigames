@@ -18,6 +18,9 @@ public:
 
 private:
 	UPROPERTY(VisibleAnywhere)
+		APawn* ControlledPawn = nullptr;
+
+	UPROPERTY(VisibleAnywhere)
 		TArray<AActor*> WaypointActors;
 
 	UPROPERTY(VisibleAnywhere)

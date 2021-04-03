@@ -1,5 +1,4 @@
 #include "tdGameModeBase.h"
-#include "MainGUI.h"
 
 AtdGameModeBase::AtdGameModeBase()
 {
@@ -15,11 +14,17 @@ void AtdGameModeBase::BeginPlay()
 
 void AtdGameModeBase::Tick(float DeltaTime)
 {
+}
+
+void AtdGameModeBase::AddEnemyPassed()
+{
+	++EnemiesPassed;
 	if (MainGUI)
 	{
-		int32 EnemiesPassedInt = FCString::Atoi(*MainGUI->EnemiesPassed);
-		++EnemiesPassedInt;
-		MainGUI->EnemiesPassed = FString::FromInt(EnemiesPassedInt);
+		MainGUI->EnemiesPassed = FString::FromInt(EnemiesPassed);
+	}
+	if (EnemiesPassed > 0) {
+		MainGUI->OnGameOver();
 	}
 }
 

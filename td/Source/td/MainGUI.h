@@ -4,8 +4,6 @@
 #include "Blueprint/UserWidget.h"
 #include "MainGUI.generated.h"
 
-class AtdGameModeBase;
-
 UCLASS()
 class TD_API UMainGUI : public UUserWidget
 {
@@ -15,7 +13,6 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		FString EnemiesPassed = "0";
 
-private:
-	UPROPERTY(VisibleAnywhere)
-		AtdGameModeBase* GameMode = nullptr;
+	UFUNCTION(BlueprintImplementableEvent)
+		void OnGameOver();
 };

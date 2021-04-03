@@ -3,6 +3,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerStart.h"
 #include "Navigation/PathFollowingComponent.h"
+#include "tdGameModeBase.h"
 
 AEnemyAIController::AEnemyAIController()
 {
@@ -29,6 +30,8 @@ void AEnemyAIController::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	if (!Moving) {
+		ControlledPawn = GetPawn();
+
 		check(CurrentWaypoint);
 		const EPathFollowingRequestResult::Type Result = MoveToActor(CurrentWaypoint);
 		if (Result == EPathFollowingRequestResult::RequestSuccessful)
@@ -49,7 +52,10 @@ void AEnemyAIController::OnMoveCompleted(FAIRequestID RequestID, const FPathFoll
 
 	if (CurrentWaypointNumber > WaypointActors.Num())
 	{
-		StopMovement();
+		AtdGameModeBase* GameMode = Cast<AtdGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
+		GameMode->AddEnemyPassed();
+		ControlledPawn->Destroy();
+		Destroy();
 		return;
 	}
 	else if (CurrentWaypointNumber == WaypointActors.Num()) {

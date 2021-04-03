@@ -1,11 +1,10 @@
 #pragma once
 
+#include "MainGUI.h"
 #include "Blueprint/UserWidget.h"
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "tdGameModeBase.generated.h"
-
-class UMainGUI;
 
 UCLASS()
 class TD_API AtdGameModeBase : public AGameModeBase
@@ -19,6 +18,8 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
+	void AddEnemyPassed();
+
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
 		TSubclassOf<UUserWidget> MainGUIClass;
@@ -30,4 +31,6 @@ private:
 
 	UPROPERTY()
 		UUserWidget* CurrentWidget = nullptr;
+
+	int EnemiesPassed = 0;
 };
