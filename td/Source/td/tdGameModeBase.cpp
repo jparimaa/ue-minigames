@@ -15,17 +15,6 @@ void AtdGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 	ChangeMenuWidget(MainGUIClass);
-
-	/*
-	AMainPlayerController* PlayerController = Cast<AMainPlayerController>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
-	PlayerController->UnPossess();
-
-	for (TActorIterator<AMainCamera> iter(GetWorld()); iter; ++iter)
-	{
-		PlayerController->Possess(*iter);
-		break;
-	}
-	*/
 }
 
 void AtdGameModeBase::Tick(float DeltaTime)
@@ -41,6 +30,23 @@ void AtdGameModeBase::AddEnemyPassed()
 	}
 	if (EnemiesPassed > 0) {
 		MainGUI->OnGameOver();
+	}
+}
+
+void AtdGameModeBase::ClickTile(AActor* Tile)
+{
+	LastClickedTile = Tile;
+	MainGUI->OnTileClick();
+}
+
+void AtdGameModeBase::BuildTower(TowerType type)
+{
+	if (type == Tower_Gun) {
+		UE_LOG(LogTemp, Log, TEXT("Build gun tower"));
+	}
+	else if (type == Tower_Splash)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Build splash tower"));
 	}
 }
 
@@ -61,3 +67,4 @@ void AtdGameModeBase::ChangeMenuWidget(TSubclassOf<UUserWidget> NewWidgetClass)
 		}
 	}
 }
+

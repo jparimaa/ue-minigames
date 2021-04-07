@@ -16,6 +16,8 @@ ATowerTile::ATowerTile()
 void ATowerTile::BeginPlay()
 {
 	Super::BeginPlay();
+	GameMode = Cast<AtdGameModeBase>(GetWorld()->GetAuthGameMode());
+	check(GameMode);
 }
 
 void ATowerTile::Tick(float DeltaTime)
@@ -25,9 +27,5 @@ void ATowerTile::Tick(float DeltaTime)
 
 void ATowerTile::OnClick(AActor* Actor, FKey	 ButtonPressed)
 {
-	UE_LOG(LogTemp, Log, TEXT("Tile clicked"));
-	FVector NewLocation = GetActorLocation();
-	NewLocation.Z += 100.0f;
-	SetActorLocation(NewLocation);
-
+	GameMode->ClickTile(Actor);
 }

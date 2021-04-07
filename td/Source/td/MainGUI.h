@@ -15,4 +15,7 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 		void OnGameOver();
+
+	UFUNCTION(BlueprintImplementableEvent)
+		void OnTileClick();
 };

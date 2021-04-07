@@ -2,6 +2,7 @@
 
 #include "Components/SphereComponent.h"
 #include "CoreMinimal.h"
+#include "tdGameModeBase.h"
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
 #include "TowerTile.generated.h"
@@ -24,4 +25,6 @@ protected:
 private:
 	UPROPERTY(VisibleAnywhere)
 		UStaticMeshComponent* MeshComp;
+
+	AtdGameModeBase* GameMode;
 };

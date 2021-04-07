@@ -6,6 +6,13 @@
 #include "GameFramework/GameModeBase.h"
 #include "tdGameModeBase.generated.h"
 
+UENUM(BlueprintType)
+enum TowerType
+{
+	Tower_Gun,
+	Tower_Splash
+};
+
 UCLASS()
 class TD_API AtdGameModeBase : public AGameModeBase
 {
@@ -13,12 +20,14 @@ class TD_API AtdGameModeBase : public AGameModeBase
 
 public:
 	AtdGameModeBase();
-
 	virtual void BeginPlay() override;
-
 	virtual void Tick(float DeltaTime) override;
-
 	void AddEnemyPassed();
+
+	void ClickTile(AActor* Tile);
+
+	UFUNCTION(BlueprintCallable)
+		void BuildTower(TowerType type);
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -33,4 +42,7 @@ private:
 		UUserWidget* CurrentWidget = nullptr;
 
 	int EnemiesPassed = 0;
+
+	UPROPERTY(VisibleAnywhere)
+		AActor* LastClickedTile;
 };
