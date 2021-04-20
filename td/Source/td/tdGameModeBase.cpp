@@ -15,6 +15,12 @@ void AtdGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 	ChangeMenuWidget(MainGUIClass);
+
+	for (TActorIterator<ATowerSpawner> iter(GetWorld()); iter; ++iter)
+	{
+		TowerSpawner = *iter;
+		break;
+	}
 }
 
 void AtdGameModeBase::Tick(float DeltaTime)
@@ -39,14 +45,10 @@ void AtdGameModeBase::ClickTile(AActor* Tile)
 	MainGUI->OnTileClick();
 }
 
-void AtdGameModeBase::BuildTower(TowerType type)
+void AtdGameModeBase::BuildTower(TowerType Type)
 {
-	if (type == Tower_Gun) {
-		UE_LOG(LogTemp, Log, TEXT("Build gun tower"));
-	}
-	else if (type == Tower_Splash)
-	{
-		UE_LOG(LogTemp, Log, TEXT("Build splash tower"));
+	if (TowerSpawner) {
+		TowerSpawner->SpawnTower(Type, LastClickedTile);
 	}
 }
 

@@ -1,17 +1,11 @@
 #pragma once
 
 #include "MainGUI.h"
+#include "TowerSpawner.h"
 #include "Blueprint/UserWidget.h"
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "tdGameModeBase.generated.h"
-
-UENUM(BlueprintType)
-enum TowerType
-{
-	Tower_Gun,
-	Tower_Splash
-};
 
 UCLASS()
 class TD_API AtdGameModeBase : public AGameModeBase
@@ -27,7 +21,7 @@ public:
 	void ClickTile(AActor* Tile);
 
 	UFUNCTION(BlueprintCallable)
-		void BuildTower(TowerType type);
+		void BuildTower(TowerType Type);
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly)
@@ -45,4 +39,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 		AActor* LastClickedTile;
+
+	UPROPERTY(VisibleAnywhere)
+		ATowerSpawner* TowerSpawner;
 };
