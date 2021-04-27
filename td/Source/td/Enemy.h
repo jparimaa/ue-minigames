@@ -15,7 +15,15 @@ class TD_API AEnemy : public ACharacter
 public:
 	AEnemy();
 	virtual void Tick(float DeltaTime) override;
+	void Damage(int Amount);
+	bool IsAlive();
 
 protected:
 	virtual void BeginPlay() override;
+
+private:
+	UPROPERTY(EditAnywhere)
+		int Health = 1000;
+
+	bool Alive = true;
 };

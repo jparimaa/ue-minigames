@@ -11,7 +11,6 @@ AEnemy::AEnemy()
 void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-
 }
 
 void AEnemy::Tick(float DeltaTime)
@@ -19,3 +18,16 @@ void AEnemy::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
+void AEnemy::Damage(int Amount)
+{
+	Health -= Amount;
+	if (Health < 0) {
+		Alive = false;
+		Destroy();
+	}
+}
+
+bool AEnemy::IsAlive()
+{
+	return Alive;
+}

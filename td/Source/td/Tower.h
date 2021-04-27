@@ -1,6 +1,9 @@
 #pragma once
 
+#include <chrono>
+
 #include "Components/SphereComponent.h"
+#include "Enemy.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Tower.generated.h"
@@ -26,4 +29,16 @@ protected:
 private:
 	UPROPERTY(VisibleAnywhere)
 		class USphereComponent* SphereComp = nullptr;
+
+	UPROPERTY(EditAnywhere)
+		int Damage = 50;
+
+	UPROPERTY(EditAnywhere)
+		int FiringRateMS = 100;
+
+	UPROPERTY(VisibleAnywhere)
+		TArray<AEnemy*> EnemiesInRange;
+
+	std::chrono::time_point<std::chrono::system_clock> LastFiringTime;
+
 };

@@ -29,5 +29,8 @@ private:
 	UPROPERTY(VisibleAnywhere)
 		int SpawnCount = 0;
 
+	UPROPERTY(EditAnywhere)
+		int SpawnIntervalMS = 1000;
+
 	std::chrono::time_point<std::chrono::system_clock> LastSpawnTime;
 };

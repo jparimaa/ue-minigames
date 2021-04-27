@@ -1,5 +1,4 @@
 #include "Tower.h"
-#include "Enemy.h"
 
 ATower::ATower()
 {
@@ -18,19 +17,36 @@ void ATower::BeginPlay()
 void ATower::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	for (int32 i = 0; i < EnemiesInRange.Num(); ++i)
+	{
+		if (!EnemiesInRange[i]->IsAlive()) {
+			continue;
+		}
+
+		const auto Now = std::chrono::system_clock::now();
+		if (Now - LastFiringTime > std::chrono::milliseconds(FiringRateMS)) {
+			LastFiringTime = Now;
+			AEnemy* Enemy = EnemiesInRange[i];
+			Enemy->Damage(Damage);
+			if (!Enemy->IsAlive()) {
+				EnemiesInRange.RemoveSingle(Enemy);
+			}
+		}
+		break;
+	}
 }
 
 void ATower::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	if (OtherActor->IsA(AEnemy::StaticClass()))
 	{
-		UE_LOG(LogTemp, Log, TEXT("Enemy entered range"));
+		EnemiesInRange.Add(Cast<AEnemy>(OtherActor));
 	}
 }
 
 void ATower::OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {
 	if (OtherActor->IsA(AEnemy::StaticClass()))
 	{
-		UE_LOG(LogTemp, Log, TEXT("Enemy left range"));
+		EnemiesInRange.RemoveSingle(Cast<AEnemy>(OtherActor));
 	}
 }

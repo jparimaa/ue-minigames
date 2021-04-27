@@ -23,7 +23,7 @@ void AEnemySpawner::Tick(float DeltaTime)
 	}
 
 	const auto Now = std::chrono::system_clock::now();
-	if (Now - LastSpawnTime > std::chrono::seconds(3)) {
+	if (Now - LastSpawnTime > std::chrono::milliseconds(SpawnIntervalMS)) {
 		LastSpawnTime = Now;
 
 		TArray<AActor*> FoundActors;
