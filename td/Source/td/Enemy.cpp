@@ -18,10 +18,11 @@ void AEnemy::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AEnemy::Damage(int Amount)
+void AEnemy::Damage(float Amount)
 {
 	Health -= Amount;
-	if (Health < 0) {
+	if (Health < 0.0f) {
+		Health = 0.0f;
 		Alive = false;
 		Destroy();
 	}
