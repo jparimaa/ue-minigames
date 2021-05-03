@@ -18,12 +18,12 @@ public:
 	void Damage(float Amount);
 	bool IsAlive();
 
-	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
-		float Health = 1.0f;
 
 protected:
 	virtual void BeginPlay() override;
 
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+		float Health = 1.0f;
 
 private:
 	bool Alive = true;

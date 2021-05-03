@@ -26,6 +26,9 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
+		bool IsFiring = false;
+
 private:
 	UPROPERTY(VisibleAnywhere)
 		class USphereComponent* SphereComp = nullptr;

@@ -17,11 +17,16 @@ void ATower::BeginPlay()
 void ATower::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	IsFiring = false;
+
 	for (int32 i = 0; i < EnemiesInRange.Num(); ++i)
 	{
 		if (!EnemiesInRange[i]->IsAlive()) {
 			continue;
 		}
+
+		IsFiring = true;
 
 		const auto Now = std::chrono::system_clock::now();
 		if (Now - LastFiringTime > std::chrono::milliseconds(FiringRateMS)) {
