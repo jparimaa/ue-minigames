@@ -1,0 +1,28 @@
+{
+  "waves": [
+    {
+      "packs": [
+        {
+          "type": "light",
+          "count": 10
+        },
+        {
+          "type": "heavy",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "packs": [
+        {
+          "type": "light",
+          "count": 15
+        },
+        {
+          "type": "heavy",
+          "count": 2
+        }
+      ]
+    }
+  ]
+}

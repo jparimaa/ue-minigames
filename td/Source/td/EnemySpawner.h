@@ -20,6 +20,8 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
+	void LoadEnemySpawnData();
+
 	UPROPERTY(EditAnywhere)
 		TSubclassOf<class AEnemy> EnemyClass;
 
