@@ -13,6 +13,18 @@ class TD_API AEnemySpawner : public AActor
 	GENERATED_BODY()
 
 public:
+	enum class EEnemyType
+	{
+		Light,
+		Heavy
+	};
+
+	struct FPack
+	{
+		EEnemyType Type;
+		int Count;
+	};
+
 	AEnemySpawner();
 	virtual void Tick(float DeltaTime) override;
 
@@ -33,6 +45,8 @@ private:
 
 	UPROPERTY(EditAnywhere)
 		int SpawnIntervalMS = 1000;
+
+	TArray<TArray<FPack>> EnemyWaves;
 
 	std::chrono::time_point<std::chrono::system_clock> LastSpawnTime;
 };

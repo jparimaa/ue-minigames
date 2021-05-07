@@ -3,6 +3,15 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/PlayerStart.h"
 
+namespace
+{
+	TMap<FString, AEnemySpawner::EEnemyType> StringToEnemyType
+	{
+		{FString("light"), AEnemySpawner::EEnemyType::Light},
+		{FString("heavy"), AEnemySpawner::EEnemyType::Heavy}
+	};
+}
+
 AEnemySpawner::AEnemySpawner()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -57,15 +66,21 @@ void AEnemySpawner::LoadEnemySpawnData()
 		return;
 	}
 
-	const TArray<TSharedPtr<FJsonValue>> Waves = JsonObject->GetArrayField("waves");
+	const TArray<TSharedPtr<FJsonValue>> WavesData = JsonObject->GetArrayField("waves");
 
-	for (int32 i = 0; i < Waves.Num(); ++i)
+	for (int32 i = 0; i < WavesData.Num(); ++i)
 	{
-		const TArray<TSharedPtr<FJsonValue>> Packs = Waves[i]->AsObject()->GetArrayField("packs");
-		for (int32 j = 0; j < Packs.Num(); ++j)
+		TArray<FPack>& Packs = EnemyWaves.AddZeroed_GetRef();
+		const TArray<TSharedPtr<FJsonValue>> PacksData = WavesData[i]->AsObject()->GetArrayField("packs");
+		for (int32 j = 0; j < PacksData.Num(); ++j)
 		{
-			TSharedPtr<FJsonObject> Pack = Packs[j]->AsObject();
-			UE_LOG(LogTemp, Log, TEXT("Type %s, count %d"), *Pack->GetStringField("type"), Pack->GetIntegerField("count"));
+			TSharedPtr<FJsonObject> PackData = PacksData[j]->AsObject();
+			if (!StringToEnemyType.Contains(PackData->GetStringField("type"))) {
+				continue;
+			}
+			FPack& Pack = Packs.AddZeroed_GetRef();
+			Pack.Count = PackData->GetIntegerField("count");
+			Pack.Type = StringToEnemyType[PackData->GetStringField("type")];
 		}
 	}
 }
