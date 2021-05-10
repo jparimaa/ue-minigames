@@ -33,20 +33,23 @@ protected:
 
 private:
 	void LoadEnemySpawnData();
+	bool UpdateSpawnIndices();
 
 	UPROPERTY(EditAnywhere)
-		TSubclassOf<class AEnemy> EnemyClass;
+		TSubclassOf<class AEnemy> LightEnemyClass;
 
 	UPROPERTY(EditAnywhere)
-		int MaxSpawnCount = 10;
+		TSubclassOf<class AEnemy> HeavyEnemyClass;
 
-	UPROPERTY(VisibleAnywhere)
-		int SpawnCount = 0;
-
-	UPROPERTY(EditAnywhere)
-		int SpawnIntervalMS = 1000;
+	FTransform SpawnPoint;
+	FActorSpawnParameters SpawnParameters;
 
 	TArray<TArray<FPack>> EnemyWaves;
 
 	std::chrono::time_point<std::chrono::system_clock> LastSpawnTime;
+	std::chrono::time_point<std::chrono::system_clock> WaveEndTime;
+	int EnemyIndex = 0;
+	int PackIndex = 0;
+	int WaveIndex = 0;
+	bool Running = true;
 };

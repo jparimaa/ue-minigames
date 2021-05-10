@@ -15,6 +15,7 @@ namespace
 AEnemySpawner::AEnemySpawner()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 }
 
 void AEnemySpawner::BeginPlay()
@@ -22,31 +23,61 @@ void AEnemySpawner::BeginPlay()
 	Super::BeginPlay();
 	LastSpawnTime = std::chrono::system_clock::now();
 	LoadEnemySpawnData();
+
+	TArray<AActor*> FoundActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerStart::StaticClass(), FoundActors);
+	check(FoundActors.Num() != 0);
+	SpawnPoint = FTransform(FoundActors[0]->GetActorLocation());
 }
 
 void AEnemySpawner::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	if (SpawnCount >= MaxSpawnCount)
+
+	if (!Running)
 	{
 		return;
 	}
 
+	using namespace std::chrono;
+
 	const auto Now = std::chrono::system_clock::now();
-	if (Now - LastSpawnTime > std::chrono::milliseconds(SpawnIntervalMS)) {
-		LastSpawnTime = Now;
+	if (Now - WaveEndTime < seconds(5)) {
+		return;
+	}
 
-		TArray<AActor*> FoundActors;
-		UGameplayStatics::GetAllActorsOfClass(GetWorld(), APlayerStart::StaticClass(), FoundActors);
-		check(FoundActors.Num() != 0);
-		const AActor* ChosenActor = FoundActors[0];
+	if (Now - LastSpawnTime < milliseconds(500)) {
+		return;
+	}
 
-		const FTransform Transform(ChosenActor->GetActorLocation());
-		FActorSpawnParameters SpawnParameters;
-		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+	LastSpawnTime = Now;
 
-		GetWorld()->SpawnActor(EnemyClass.Get(), &Transform, SpawnParameters);
-		++SpawnCount;
+	const int PreviousWaveIndex = WaveIndex;
+
+	Running = UpdateSpawnIndices();
+	if (!Running) {
+		return;
+	}
+
+	if (PreviousWaveIndex != WaveIndex) {
+		WaveEndTime = std::chrono::system_clock::now();
+		return;
+	}
+
+	const FPack Pack = EnemyWaves[WaveIndex][PackIndex];
+	const EEnemyType EnemyType = Pack.Type;
+	if (EnemyType == EEnemyType::Light)
+	{
+		GetWorld()->SpawnActor(LightEnemyClass.Get(), &SpawnPoint, SpawnParameters);
+	}
+	else if (EnemyType == EEnemyType::Heavy)
+	{
+		GetWorld()->SpawnActor(HeavyEnemyClass.Get(), &SpawnPoint, SpawnParameters);
+	}
+	else
+	{
+		Running = false;
+		UE_LOG(LogTemp, Error, TEXT("Incorrect enemy type, disabling enemy spawning"));
 	}
 }
 
@@ -83,4 +114,25 @@ void AEnemySpawner::LoadEnemySpawnData()
 			Pack.Type = StringToEnemyType[PackData->GetStringField("type")];
 		}
 	}
+}
+
+bool AEnemySpawner::UpdateSpawnIndices()
+{
+	++EnemyIndex;
+	if (EnemyIndex > EnemyWaves[WaveIndex][PackIndex].Count)
+	{
+		EnemyIndex = 1;
+		++PackIndex;
+	}
+	if (PackIndex == EnemyWaves[WaveIndex].Num())
+	{
+		PackIndex = 0;
+		EnemyIndex = 0;
+		++WaveIndex;
+	}
+	if (WaveIndex == EnemyWaves.Num())
+	{
+		return false;
+	}
+	return true;
 }

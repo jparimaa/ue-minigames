@@ -4,7 +4,7 @@
       "packs": [
         {
           "type": "light",
-          "count": 10
+          "count": 5
         },
         {
           "type": "heavy",
@@ -16,7 +16,7 @@
       "packs": [
         {
           "type": "light",
-          "count": 15
+          "count": 8
         },
         {
           "type": "heavy",
