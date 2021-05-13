@@ -6,11 +6,14 @@ AEnemy::AEnemy()
 	PrimaryActorTick.bCanEverTick = true;
 	AIControllerClass = AEnemyAIController::StaticClass();
 	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
+
+	MaxHealth = 100;
 }
 
 void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
+	CurrentHealth = MaxHealth;
 }
 
 void AEnemy::Tick(float DeltaTime)
@@ -18,11 +21,12 @@ void AEnemy::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 }
 
-void AEnemy::Damage(float Amount)
+void AEnemy::Damage(int Amount)
 {
-	Health -= Amount;
-	if (Health < 0.0f) {
-		Health = 0.0f;
+	CurrentHealth -= Amount;
+	HealthPercentage = static_cast<float>(CurrentHealth) / static_cast<float>(MaxHealth);
+	if (HealthPercentage < 0.0f) {
+		HealthPercentage = 0.0f;
 		Alive = false;
 		Destroy();
 	}

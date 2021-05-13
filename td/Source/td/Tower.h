@@ -34,7 +34,7 @@ private:
 		class USphereComponent* SphereComp = nullptr;
 
 	UPROPERTY(EditAnywhere)
-		float Damage = 0.05f;
+		int Damage = 5;
 
 	UPROPERTY(EditAnywhere)
 		int FiringRateMS = 100;
