@@ -1,7 +1,5 @@
 #pragma once
 
-#include <chrono>
-
 #include "Components/SphereComponent.h"
 #include "Enemy.h"
 #include "CoreMinimal.h"
@@ -23,6 +21,11 @@ public:
 	UFUNCTION()
 		void OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
+	const TArray<AEnemy*>& GetEnemiesInRange() const;
+	void RemoveEnemyFromRange(AEnemy* Enemy);
+
+	void SetIsFiring(bool Status);
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -33,15 +36,6 @@ private:
 	UPROPERTY(VisibleAnywhere)
 		class USphereComponent* SphereComp = nullptr;
 
-	UPROPERTY(EditAnywhere)
-		int Damage = 5;
-
-	UPROPERTY(EditAnywhere)
-		int FiringRateMS = 100;
-
 	UPROPERTY(VisibleAnywhere)
 		TArray<AEnemy*> EnemiesInRange;
-
-	std::chrono::time_point<std::chrono::system_clock> LastFiringTime;
-
 };

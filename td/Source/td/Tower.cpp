@@ -17,28 +17,6 @@ void ATower::BeginPlay()
 void ATower::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
-	IsFiring = false;
-
-	for (int32 i = 0; i < EnemiesInRange.Num(); ++i)
-	{
-		if (!EnemiesInRange[i]->IsAlive()) {
-			continue;
-		}
-
-		IsFiring = true;
-
-		const auto Now = std::chrono::system_clock::now();
-		if (Now - LastFiringTime > std::chrono::milliseconds(FiringRateMS)) {
-			LastFiringTime = Now;
-			AEnemy* Enemy = EnemiesInRange[i];
-			Enemy->Damage(Damage);
-			if (!Enemy->IsAlive()) {
-				EnemiesInRange.RemoveSingle(Enemy);
-			}
-		}
-		break;
-	}
 }
 
 void ATower::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -54,4 +32,19 @@ void ATower::OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActo
 	{
 		EnemiesInRange.RemoveSingle(Cast<AEnemy>(OtherActor));
 	}
+}
+
+const TArray<AEnemy*>& ATower::GetEnemiesInRange() const
+{
+	return EnemiesInRange;
+}
+
+void ATower::RemoveEnemyFromRange(AEnemy* Enemy)
+{
+	EnemiesInRange.RemoveSingle(Enemy);
+}
+
+void ATower::SetIsFiring(bool Status)
+{
+	IsFiring = Status;
 }
