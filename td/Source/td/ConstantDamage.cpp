@@ -17,33 +17,25 @@ void UConstantDamage::TickComponent(float DeltaTime, ELevelTick TickType, FActor
 
 	ATower* Owner = Cast<ATower>(GetOwner());
 	const TArray<AEnemy*>& EnemiesInRange = Owner->GetEnemiesInRange();
-
-	bool IsFiring = false;
-	AEnemy* KilledEnemy = nullptr;
-
-	for (int32 i = 0; i < EnemiesInRange.Num(); ++i)
-	{
-		check(EnemiesInRange[i]->IsAlive());
-
-		IsFiring = true;
-
-		const auto Now = std::chrono::system_clock::now();
-		if (Now - LastFiringTime > std::chrono::milliseconds(FiringRateMS)) {
-			LastFiringTime = Now;
-			AEnemy* Enemy = EnemiesInRange[i];
-			Enemy->Damage(Damage);
-			if (!Enemy->IsAlive()) {
-				KilledEnemy = Enemy;
-			}
-		}
-		break;
+	if (EnemiesInRange.Num() == 0) {
+		Owner->SetIsFiring(false);
+		return;
 	}
 
-	if (KilledEnemy)
-	{
-		Owner->RemoveEnemyFromRange(KilledEnemy);
+	Owner->SetIsFiring(true);
+
+	const auto Now = std::chrono::system_clock::now();
+	if (Now - LastFiringTime < std::chrono::milliseconds(FiringRateMS)) {
+		return;
 	}
 
-	Owner->SetIsFiring(IsFiring);
+	LastFiringTime = Now;
+	AEnemy* TargetEnemy = EnemiesInRange[0];
+	check(TargetEnemy->IsAlive());
+
+	TargetEnemy->Damage(Damage);
+	if (!TargetEnemy->IsAlive()) {
+		Owner->RemoveEnemyFromRange(TargetEnemy);
+	}
 }
 
