@@ -26,11 +26,11 @@ public:
 
 	void SetIsFiring(bool Status);
 
-protected:
-	virtual void BeginPlay() override;
-
 	UPROPERTY(BlueprintReadOnly, VisibleAnywhere)
 		bool IsFiring = false;
+
+protected:
+	virtual void BeginPlay() override;
 
 private:
 	UPROPERTY(VisibleAnywhere)
